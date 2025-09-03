@@ -1,0 +1,7 @@
+# config file for /etc/conf.d/pcscd
+
+EXTRA_OPTS=""
+
+PCSCD_USER="root"
+
+PCSCD_GROUP="root"

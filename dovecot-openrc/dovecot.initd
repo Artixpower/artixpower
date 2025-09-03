@@ -1,0 +1,39 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2019 Gentoo Authors
+# Distributed under the terms of the GNU General Public License, v2 or later
+
+extra_commands="checkconfig"
+
+supervisor=supervise-daemon
+command=/usr/bin/dovecot
+command_args="-F -c ${DOVECOT_CONF}"
+
+depend() {
+	need localmount
+	before postfix
+	after bootmisc ldap mysql ntp-client ntpd postgresql saslauthd slapd 
+	use logger net
+}
+
+checkconfig() {
+	DOVECOT_INSTANCE=${SVCNAME##*.}
+	if [ -n "${DOVECOT_INSTANCE}" -a "${SVCNAME}" != "dovecot" ]; then
+		DOVECOT_CONF=/etc/dovecot/dovecot.${DOVECOT_INSTANCE}.conf
+	else
+		DOVECOT_CONF=/etc/dovecot/dovecot.conf
+	fi
+	if [ ! -e ${DOVECOT_CONF} ]; then
+		eerror "You will need an ${DOVECOT_CONF} first"
+		return 1
+	fi
+	if [ -x /usr/sbin/dovecot ]; then
+		DOVECOT_BASEDIR=$(/usr/bin/dovecot -c ${DOVECOT_CONF} config -h base_dir)
+		if [ $? -ne 0 ]; then
+			eerror "Error parsing ${DOVECOT_CONF}"
+			return 1
+		fi
+	else
+		eerror "dovecot not executable"
+		return 1
+	fi
+}

@@ -1,0 +1,28 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+# Contributor: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+
+pkgname=jenkins-openrc
+pkgver=20230718
+pkgrel=2
+pkgdesc="OpenRC jenkins init script"
+arch=("any")
+url="https://gitea.artixlinux.org/packages/jenkins-openrc"
+license=('GPL2')
+groups=('openrc-world')
+depends=('jenkins' 'openrc')
+provides=('init-jenkins')
+conflicts=('init-jenkins')
+backup=('etc/conf.d/jenkins')
+source=('jenkins.confd'
+        'jenkins.initd'
+        "jenkins.logrotate")
+sha256sums=('ecc465d5a34fd818a18b5e9b0d8b0f14c23ca474ee471a0fedf36f9306aa695e'
+            '737f0be307803fbe6e60f0668ad9aff9ad9951cac22e224d031f99c46181e370'
+            '03dcaccbb0d398c2b600be0752ffc68d20c877b58a10026b7c59b0bd40c0e5bf')
+
+package() {
+    install -Dm755 "$srcdir/jenkins.initd" "$pkgdir/etc/init.d/jenkins"
+    install -Dm644 "$srcdir/jenkins.confd" "$pkgdir/etc/conf.d/jenkins"
+    install -Dm644 "${srcdir}/jenkins.logrotate" "${pkgdir}/etc/logrotate.d/jenkins"
+}

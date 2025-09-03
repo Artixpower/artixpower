@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=xinetd-openrc
+pkgver=20210419
+pkgrel=1
+pkgdesc="OpenRC xinetd init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-xinetd')
+depends=('openrc' 'xinetd')
+conflicts=('init-xinetd')
+backup=('etc/conf.d/xinetd')
+source=("xinetd.confd"
+        "xinetd.initd")
+sha256sums=('e401e2cf7c0180a170d3dc3e91d7e98002bae7b013df72813b7bcf89b864fb3a'
+            '0ffbd57316cdb5317b23b4ca33e65eb3da8cdabb0213846b4ae38cf72a119412')
+
+package() {
+    install -Dm755 "${srcdir}"/xinetd.confd "${pkgdir}"/etc/conf.d/xinetd
+    install -Dm755 "${srcdir}"/xinetd.initd "${pkgdir}"/etc/init.d/xinetd
+}

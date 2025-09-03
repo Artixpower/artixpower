@@ -1,0 +1,22 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=rsync-openrc
+pkgver=20210502
+pkgrel=1
+pkgdesc="OpenRC rsync init script"
+arch=("any")
+url="https://gitea.artixlinux.org/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-rsync')
+depends=('openrc' 'rsync')
+conflicts=('init-rsync')
+backup=('etc/conf.d/rsyncd')
+source=("rsyncd".{confd,initd})
+sha256sums=('de758791b16b89a648c01867af7f51bc9bd44e40cbe868e439b753ff5d9572e5'
+            '2570e13ed4e88d8f4526a6e33b1f8fa07c655a86012b09607247609951c9161c')
+
+package() {
+    install -Dm755 "$srcdir"/rsyncd.initd "$pkgdir"/etc/init.d/rsyncd
+    install -Dm644 "$srcdir"/rsyncd.confd "$pkgdir"/etc/conf.d/rsyncd
+}

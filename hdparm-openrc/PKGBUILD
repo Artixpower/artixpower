@@ -1,0 +1,24 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=hdparm-openrc
+pkgver=20210505
+pkgrel=3
+pkgdesc="OpenRC hdparm init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-hdparm')
+depends=('openrc' 'hdparm')
+conflicts=('init-hdparm')
+backup=('etc/conf.d/hdparm')
+source=("hdparm.confd"
+        "hdparm.initd")
+sha256sums=('37c95ff723fa578e9039613d09dbf790d99113a318c065422986c744519214e9'
+            '05b264cadc84984f773cd555af322b41fdb13da7cb2ca60d8a7d590ddf4d5e5f')
+
+package() {
+    install -Dm644 "${srcdir}"/hdparm.confd "${pkgdir}"/etc/conf.d/hdparm
+    install -Dm755 "${srcdir}"/hdparm.initd "${pkgdir}"/etc/init.d/hdparm
+}
+

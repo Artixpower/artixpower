@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = glibc
+Target = libelf
+Target = libarchive
+
+[Action]
+Description = Restarting debuginfod for lib{c,elf,archive} upgrade...
+When = PostTransaction
+Exec = /usr/bin/rc-service debuginfod restart

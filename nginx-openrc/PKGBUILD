@@ -1,0 +1,22 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=nginx-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC nginx init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-nginx')
+depends=('openrc' 'nginx')
+conflicts=('init-nginx')
+backup=('etc/conf.d/nginx')
+source=("nginx".{confd,initd})
+sha256sums=('29677faab40d1fff740d743614788fd73c8c2d4167c3bd64d3e8bd4b0eb90d2b'
+            'ea7cded47aab69cb930afbda6d8e5f79888e3e5575fe08aee6ecc21cc4fe922c')
+
+package() {
+    install -Dm755 "$srcdir"/nginx.initd "$pkgdir"/etc/init.d/nginx
+    install -Dm644 "$srcdir"/nginx.confd "$pkgdir"/etc/conf.d/nginx
+}

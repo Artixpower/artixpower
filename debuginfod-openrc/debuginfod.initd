@@ -1,0 +1,25 @@
+#!/usr/bin/openrc-run
+#
+# nous, 2022-2025
+
+name="debuginfod"
+description="debuginfod, a service providing debug information over an HTTP API"
+
+supervisor=supervise-daemon
+command=/usr/bin/debuginfod
+command_args="${DEBUGINFOD_OPTS} -f"
+command_args="-d /var/cache/debuginfod/debuginfod.sqlite -p 8002 -F -Z .tar.zst=zstdcat /srv/pkgpool-debug/"
+command_user=debuginfod
+
+depend() {
+  after net
+  before nginx
+}
+
+start_pre() {
+  rm -f /tmp/debuginfod.*
+}
+
+stop_post() {
+  rm -f /tmp/debuginfod.*
+}

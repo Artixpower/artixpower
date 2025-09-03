@@ -1,0 +1,19 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=postfix-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC postfix init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-postfix')
+depends=('openrc' 'postfix')
+conflicts=('init-postfix')
+source=("postfix.initd")
+sha256sums=('cea6c685c6a8f933cbcc0db80cf59b896b1c619863d2c8a8cd4faedbe2704962')
+
+package() {
+	install -Dm755 "$srcdir"/postfix.initd "$pkgdir"/etc/init.d/postfix
+}

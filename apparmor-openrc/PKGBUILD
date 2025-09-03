@@ -1,0 +1,19 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=apparmor-openrc
+pkgver=20210506
+pkgrel=1
+pkgdesc="OpenRC apparmor init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-apparmor')
+depends=('openrc' 'apparmor')
+conflicts=('init-apparmor')
+source=("apparmor.initd")
+sha256sums=('ba7601a738761a3f27278a7508ae32463f7097c597f0806931983ef6af2a5d3a')
+
+package() {
+	install -Dm755 "${srcdir}"/apparmor.initd "${pkgdir}"/etc/init.d/apparmor
+}

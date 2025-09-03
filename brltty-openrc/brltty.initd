@@ -1,0 +1,12 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2019 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+command=/usr/bin/brltty
+pidfile=/run/brltty.pid
+command_args="-P ${pidfile} -q"
+
+depend() {
+	before *
+	after clock
+}

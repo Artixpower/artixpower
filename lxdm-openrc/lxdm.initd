@@ -1,0 +1,18 @@
+#!/usr/bin/openrc-run
+
+command="/usr/bin/lxdm-binary"
+command_args="-d"
+pidfile="/run/${RC_SVCNAME}.pid"
+
+depend() {
+    need localmount dbus logind
+
+    after bootmisc consolefont modules netmount
+    after readahead-list ypbind autofs openvpn gpm lircmd
+    after quota keymaps
+    before alsasound
+
+    use xfs
+
+    provide xdm display-manager
+}

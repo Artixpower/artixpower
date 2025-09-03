@@ -1,0 +1,13 @@
+#!/usr/bin/openrc-run
+
+command=/usr/bin/darkhttpd
+command_args="${DARKHTTPD_OPTS} --daemon"
+command_user="http:http"
+
+depend() {
+        use net
+}
+
+start_pre() {
+	checkpath -d --owner "$command_user" /srv/http
+}

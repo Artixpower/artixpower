@@ -1,0 +1,5 @@
+# Port to listen for UI connection
+PORT=8121
+
+# IP to listen for UI connections
+UI_IP=127.0.0.1

@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=cryptsetup-openrc
+pkgver=20240225
+pkgrel=1
+pkgdesc="OpenRC cryptsetup init script"
+arch=("any")
+url="https://gitea.artixlinux.org/packages/cryptsetup-openrc"
+license=('GPL-2.0-or-later')
+groups=('openrc-system')
+provides=('init-cryptsetup')
+depends=('device-mapper-openrc' 'cryptsetup')
+conflicts=('init-cryptsetup')
+backup=('etc/conf.d/dmcrypt')
+source=("dmcrypt.confd"
+        "dmcrypt.initd")
+sha256sums=('f2ca1396df6db52b4ba0a5138e77cae9219f8332c4803cdc7876741870bf3e01'
+            '76c0efb3508d1041851ebe8a136174524c9414c8e24b1d07f69ed337be11a019')
+
+package() {
+    install -Dm755 "${srcdir}"/dmcrypt.initd "${pkgdir}"/etc/init.d/dmcrypt
+    install -Dm644 "${srcdir}"/dmcrypt.confd "${pkgdir}"/etc/conf.d/dmcrypt
+}

@@ -1,0 +1,2 @@
+# Artix-specific startup options for debuginfod
+DEBUGINFOD_OPTS="-L -d /var/cache/debuginfod/debuginfod.sqlite -p 8002 -F -Z .tar.zst=zstdcat /srv/pkgpool-debug/"

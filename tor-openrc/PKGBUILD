@@ -1,0 +1,33 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+pkgname=tor-openrc
+pkgver=20210521
+pkgrel=1
+pkgdesc="OpenRC tor init script"
+arch=("any")
+url="https://github.com/artix-linux/packages-galaxy"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'tor')
+provides=('init-tor')
+conflicts=('init-tor')
+backup=('etc/conf.d/tor')
+source=("tor.confd"
+        "tor.initd")
+sha256sums=('ff97bcf48d7e1bb95a71ab8953c8f719a8c0e0da45b231ef538968340291066e'
+            '943e544b1e70600da1fdfa653b48356929ad69c0f1b1dde7b2aab1e02eca4bf7')
+
+_inst_initd(){
+    install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
+}
+
+_inst_confd(){
+    install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
+}
+
+package() {
+    _inst_confd 'tor'
+    _inst_initd 'tor'
+}

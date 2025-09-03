@@ -1,0 +1,25 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+pkgname=redis-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC redis init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'redis')
+provides=('init-redis')
+conflicts=('init-redis')
+backup=('etc/conf.d/redis')
+source=("redis.confd"
+        "redis.initd")
+sha256sums=('840b93372ca0622eb3b67b1e0e64f15e1711632ea404d365425eeff68e005d38'
+            '97036a42e4d79c278a91a319fb1be94bc71c008a447931c491191093a8beba54')
+
+package() {
+    install -Dm755 "${srcdir}"/redis.initd "${pkgdir}"/etc/init.d/redis
+    install -Dm644 "${srcdir}"/redis.confd "${pkgdir}"/etc/conf.d/redis
+}

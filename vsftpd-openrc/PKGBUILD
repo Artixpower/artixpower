@@ -1,0 +1,28 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+pkgname=vsftpd-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC vsftpd init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'vsftpd')
+provides=('init-vsftpd')
+conflicts=('init-vsftpd')
+source=("vsftpd.initd"
+	 "vsftpd-checkconfig.sh")
+sha256sums=('2198e04a52071d0f1b6880bce8d2360bede25c2ee590a28b0057a959ccb5921e'
+            '866865419c3c82f0e56bdc2d38950d453791032255c39a5700a795a670a579ba')
+
+package() {
+    install -Dm755 "$srcdir/vsftpd.initd" \
+	"$pkgdir/etc/init.d/vsftpd"
+
+    install -Dm755 "${srcdir}/vsftpd-checkconfig.sh" \
+	"${pkgdir}/usr/lib/vsftpd-checkconfig.sh"
+}
+

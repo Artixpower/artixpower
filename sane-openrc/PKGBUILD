@@ -1,0 +1,22 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=sane-openrc
+pkgver=20210506
+pkgrel=1
+pkgdesc="OpenRC sane init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+depends=('openrc' 'sane')
+provides=('init-sane')
+conflicts=('init-sane')
+backup=('etc/conf.d/saned')
+source=("saned".{confd,initd})
+sha256sums=('197e44ba1f438a18f5f7d9f5858feb19c1ece4286d82a5e63caf9be5b964aa76'
+            '5a3f1c09991ebab593eb6d2075bb6461029f98ec1794aa832d0ee9f234d7e437')
+
+package() {
+    install -Dm755 "$srcdir"/saned.initd "$pkgdir"/etc/init.d/saned
+    install -Dm644 "$srcdir"/saned.confd "$pkgdir"/etc/conf.d/saned
+}

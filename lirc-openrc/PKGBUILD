@@ -1,0 +1,32 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=lirc-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC lirc init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-lirc')
+depends=('openrc' 'lirc')
+conflicts=('init-lirc')
+backup=('etc/conf.d/lircd'
+        'etc/conf.d/irexec'
+        'etc/conf.d/lircmd')
+source=("lircd.confd" "lircd.initd"
+        "irexec.confd" "irexec.initd"
+        "lircmd.confd" "lircmd.initd")
+sha256sums=('d36ff77fa193a065d25e373723e03f1a9471205151b82c73a6574cce4f095962'
+            '5248577b6e622f8189a40a3b7d21cb5f50316403aa4cc48667c4ec062b894688'
+            'c404ad3b624004cab25bd3a89593cdeb0abbc25771d6e52caf2f37cb4f7b2b79'
+            '4edcfa8183b71633b0d92c15c432af9188b7bea1335befe95c60e6690d1ed9c9'
+            '0d38ab189b0dd7fab1e0e19fd997c54b8264486eb5f41f4c85f122d0c4006769'
+            'e55fa0b5ef4a6a11c4124d8d46c6ce5e34e7344590c72c6e17439b915ad29f10')
+
+package() {
+    for _i in lircd irexec lircmd ; do
+        install -Dm755 "$srcdir/$_i.initd" "$pkgdir/etc/init.d/$_i"
+        install -Dm644 "$srcdir/$_i.confd" "$pkgdir/etc/conf.d/$_i"
+    done
+}

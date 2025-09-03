@@ -1,0 +1,23 @@
+# Maintainer: nous@artixlinux.org
+
+pkgname=darkhttpd-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC darkhttpd init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'darkhttpd')
+provides=('init-darkhttpd')
+conflicts=('init-darkhttpd')
+backup=('etc/conf.d/darkhttpd')
+source=("darkhttpd.confd"
+        "darkhttpd.initd")
+sha256sums=('b3a0ce03aea8b6bc658b4234aedce8a0595db2669d147d4bdfdfd578bb4ed9ba'
+            '51b25d814d4d148213cd66de848689f343d6992414ef81c00b5b2c50ea60a888')
+
+package() {
+	install -Dm755 "$srcdir/darkhttpd.initd" "$pkgdir/etc/init.d/darkhttpd"
+	install -Dm644 "$srcdir/darkhttpd.confd" "$pkgdir/etc/conf.d/darkhttpd"
+}

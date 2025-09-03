@@ -1,0 +1,19 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+supervisor=supervise-daemon
+pidfile="${DISTCCD_PIDFILE}"
+piddir="$(dirname ${DISTCCD_PIDFILE})"
+command="${DISTCCD_EXEC}"
+command_args="${DISTCCD_OPTS} --no-detach"
+command_user="distcc:distcc"
+
+depend() {
+    need net
+    use avahi-daemon ypbind
+}
+
+start_pre() {
+    mkdir -p "$piddir" && chown $command_user "$piddir" || { eerror "Failed to create ${piddir}!"; return 1; }
+}

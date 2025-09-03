@@ -1,0 +1,19 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=sddm-openrc
+pkgver=20220104
+pkgrel=1
+pkgdesc="OpenRC sddm init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-displaymanager')
+depends=('sddm' 'openrc')
+conflicts=('init-displaymanager')
+source=("sddm.initd")
+sha256sums=('0d24660f022b3e5e1f8196a4022981045d9dd79eb74531d19d6981a5ba735f1e')
+
+package() {
+    install -Dm755 "$srcdir/sddm.initd" "$pkgdir/etc/init.d/sddm"
+}

@@ -1,0 +1,10 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+command=/usr/bin/lircmd
+command_args="${LIRCMD_OPTS}"
+
+depend() {
+	need lircd
+}

@@ -1,0 +1,25 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+pkgname=unbound-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC unbound init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'unbound')
+provides=('init-unbound')
+conflicts=('init-unbound')
+backup=('etc/conf.d/unbound')
+source=("unbound.confd"
+        "unbound.initd")
+sha256sums=('7be43d80f0caf6448048a0278615617e0eaffd2e8e23468576149af8cece465f'
+            'cb40465590249b9fe14e435944ce308ba1adf5853dfd8f90080232155a82144c')
+
+package() {
+    install -Dm755 "$srcdir/unbound.initd" "$pkgdir/etc/init.d/unbound"
+    install -Dm644 "$srcdir/unbound.confd" "$pkgdir/etc/conf.d/unbound"
+}

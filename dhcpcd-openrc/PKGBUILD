@@ -1,0 +1,19 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=dhcpcd-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC dhcpcd init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-dhcpcd')
+depends=('openrc' 'dhcpcd')
+conflicts=('init-dhcpcd')
+source=("dhcpcd.initd")
+sha256sums=('b28359fa2d9ec1a8722e00dd31ed9553658626295ebb182e807390a1dbc4b79b')
+
+package() {
+    install -Dm755 "${srcdir}"/dhcpcd.initd "${pkgdir}"/etc/init.d/dhcpcd
+}

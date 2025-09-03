@@ -1,0 +1,8 @@
+#!/usr/bin/openrc-run
+# Copyright Artix Linux 2021
+# Distributed under the terms of GPLv2
+
+command="/usr/lib/colord"
+command_user="colord"
+pidfile="/run/colord.pid"
+command_background=yes

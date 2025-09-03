@@ -1,0 +1,19 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=brltty-openrc
+pkgver=20210506
+pkgrel=1
+pkgdesc="OpenRC brltty init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-brltty')
+depends=('openrc' 'brltty')
+conflicts=('init-brltty')
+source=("brltty.initd")
+sha256sums=('28156db939f74a46e24dbd19cb8e39f981ca0924b86a7f4543ec62b59df3895d')
+
+package() {
+	install -Dm755 "$srcdir"/brltty.initd "$pkgdir"/etc/init.d/brltty
+}

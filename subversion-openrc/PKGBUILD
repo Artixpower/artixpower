@@ -1,0 +1,22 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=subversion-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC svnserve init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-subversion')
+depends=('subversion' 'openrc')
+conflicts=('init-subversion')
+backup=('etc/conf.d/svnserve')
+source=("svnserve".{confd,initd})
+sha256sums=('b69b09112f2aefe88cb5e84ae35f7f365c72758ede7edadf245acf6a9f266da6'
+            '9725301066a9ffcadd2391834a1e1f5205d77693e9cc55d875f77b9ae125bcb8')
+
+package() {
+    install -Dm755 "$srcdir"/svnserve.initd "$pkgdir"/etc/init.d/svnserve
+    install -Dm644 "$srcdir"/svnserve.confd "$pkgdir"/etc/conf.d/svnserve
+}

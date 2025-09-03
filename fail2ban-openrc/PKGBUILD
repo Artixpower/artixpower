@@ -1,0 +1,23 @@
+# Maintainer: nous@artixlinux.org
+
+pkgname=fail2ban-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC fail2ban init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' "fail2ban")
+provides=('init-fail2ban')
+conflicts=('init-fail2ban')
+backup=('etc/conf.d/fail2ban')
+source=("fail2ban.initd"
+	    "fail2ban.confd")
+sha256sums=('42ead317212f93fd179c4504e068d08dbfa163b30909c497c5a731c8eb640b46'
+            '4a4fe009c575e9f1dd09ee33d8dc048019e0443106d0dd7fb53eac3834526cf1')
+
+package() {
+	install -Dm755 "$srcdir/fail2ban.initd" "$pkgdir/etc/init.d/fail2ban"
+	install -Dm644 "$srcdir/fail2ban.confd" "$pkgdir/etc/conf.d/fail2ban"
+}

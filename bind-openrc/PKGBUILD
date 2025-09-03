@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=bind-openrc
+pkgver=20210506
+pkgrel=1
+pkgdesc="OpenRC bind init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-named' 'init-bind')
+depends=('openrc' 'bind')
+conflicts=('init-named' 'init-bind')
+backup=('etc/conf.d/named')
+source=("named.confd"
+        "named.initd")
+sha256sums=('3cf1ab72446cb9417de916e4cd732f2056fb74d2c6f03da6741b7bae8c415448'
+            '2bbc50b066c766d16abbba876c31297763accb9e6ea69ccd04e1283c13a2d98f')
+
+package() {
+    install -Dm755 "${srcdir}"/named.initd "${pkgdir}"/etc/init.d/named
+    install -Dm644 "${srcdir}"/named.confd "${pkgdir}"/etc/conf.d/named
+}

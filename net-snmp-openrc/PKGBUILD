@@ -1,0 +1,28 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=net-snmp-openrc
+pkgver=20211001
+pkgrel=1
+pkgdesc="net-snmp OpenRC init"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+depends=('openrc' 'net-snmp')
+provides=('init-net-snmp')
+conflicts=('init-net-snmp')
+backup=('etc/conf.d/snmpd' 'etc/conf.d/snmptrapd')
+source=(snmpd.{confd,initd}
+        snmptrapd.{confd,initd})
+b2sums=('9d2801b0ddc2148a62e332a1d355a9ddc050ec95aea2dde31f25413096c4b91dbab794c1e71b75f5baba1234d89729a6e8c50287098c04991a3eec4d9f512b3c'
+        'e2df48242b420918fba05cc9c69317295b2b0ff25f22985108caf2854494fbeb1bdba39646640552df4170d187189038a03b18ab5ffa3764581eae0e8e915ede'
+        'dced765351c6fbd74166da9c3631993a06135569e8bc7b2375e36e2823446de47c82e10992579a05bdd1f2803fc4694463f0f9e1e5e3510204a28184919d8a78'
+        'fed32c4fabe7e766862a4fbb2d14a1959b87cbb7964ea6802f3f96e62777b43f84089f432cc01eea7f100632f05a97d9ef22d2d68637b90ceb4eb251b65a0267')
+
+package() {
+    install -Dm755 "$srcdir/snmpd.initd" "$pkgdir/etc/init.d/snmpd"
+    install -Dm644 "$srcdir/snmpd.confd" "$pkgdir/etc/conf.d/snmpd"
+
+    install -Dm755 "$srcdir/snmptrapd.initd" "$pkgdir/etc/init.d/snmptrapd"
+	install -Dm644 "$srcdir/snmptrapd.confd" "$pkgdir/etc/conf.d/snmptrapd"
+}

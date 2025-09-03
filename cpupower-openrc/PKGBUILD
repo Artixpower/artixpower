@@ -1,0 +1,25 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+pkgname=cpupower-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC cpupower init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'cpupower')
+provides=('init-cpupower')
+conflicts=('init-cpupower')
+backup=('etc/conf.d/cpupower')
+source=("cpupower.confd"
+        "cpupower.initd")
+sha256sums=('9ab6f022d2b2948660decf5e383984e6ddb9e9e5e6e2761c3031378ddd87e947'
+            '5c3917556d86f7a0583b99a88825260ac4cae2619c69e35abe9f11c737906078')
+
+package() {
+    install -Dm755 "${srcdir}/cpupower.initd" "${pkgdir}/etc/init.d/cpupower"
+    install -Dm644 "${srcdir}/cpupower.confd" "${pkgdir}/etc/conf.d/cpupower"
+}

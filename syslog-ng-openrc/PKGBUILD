@@ -1,0 +1,22 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=syslog-ng-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC syslog-ng init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-syslog-ng')
+depends=('openrc' 'syslog-ng')
+conflicts=('init-syslog-ng')
+backup=('etc/conf.d/syslog-ng')
+source=("syslog-ng".{confd,initd})
+sha256sums=('4d719438e26bb4e156a08e515f6859aeab47e927dc7596914acd836c1f3e9f3d'
+            '6235ea69ee2e034c0609bd9904f9e4a8c273f64cc067dfac32ee26c95dee8597')
+
+package() {
+    install -Dm755 "$srcdir"/syslog-ng.initd "$pkgdir"/etc/init.d/syslog-ng
+    install -Dm644 "$srcdir"/syslog-ng.confd "$pkgdir"/etc/conf.d/syslog-ng
+}

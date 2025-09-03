@@ -1,0 +1,24 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=alsa-utils-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC alsa-utils init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-alsa-utils')
+depends=('openrc' 'alsa-utils')
+conflicts=('init-alsa-utils')
+backup=('etc/conf.d/alsasound')
+source=("alsasound.confd"
+        "alsasound.initd")
+sha256sums=('d1c55400b701a72dcb8bb85e016b5013fa3eb6a2766ffc20dae278d0ee4c1a43'
+            '40c9f0e8d00b88ebd28bba9dcd91323549a77aeda12a5a86c532bddca7dae8d1')
+
+package() {
+    install -Dm755 "${srcdir}"/alsasound.initd "${pkgdir}"/etc/init.d/alsasound
+    install -Dm644 "${srcdir}"/alsasound.confd "${pkgdir}"/etc/conf.d/alsasound
+}
+

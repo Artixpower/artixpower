@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=openldap-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC openldap init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-openldap')
+depends=('openrc' 'openldap')
+conflicts=('init-openldap')
+backup=('etc/conf.d/slapd')
+source=("slapd.confd"
+        "slapd.initd")
+sha256sums=('901044908fbbbbf333f7f0f1efccd1f0e213aa1a9156b3e659eaf0a0c7fdfc89'
+            'bd07d123095ee017264e03892f5bfe8bf532abd5ceb40e6bf90ec7e03c6968c7')
+
+package() {
+    install -Dm644 "${srcdir}"/slapd.confd "${pkgdir}"/etc/conf.d/slapd
+    install -Dm755 "${srcdir}"/slapd.initd "${pkgdir}"/etc/init.d/slapd
+}

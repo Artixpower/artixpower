@@ -1,0 +1,14 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2018 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+description="FirewallD"
+
+supervisor=supervise-daemon
+command=/usr/sbin/firewalld
+command_args="--nofork"
+
+depend() {
+	need dbus
+	provide firewall
+}

@@ -1,0 +1,25 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+pkgname=espeakup-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC espeakup init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'espeakup')
+provides=('init-espeakup')
+conflicts=('init-espeakup')
+backup=('etc/conf.d/espeakup')
+source=("espeakup.confd"
+        "espeakup.initd")
+sha256sums=('32e6de11417ebb199a7bf46eb8cf77054b1af1c9f4bcc80b856b34758830eb9f'
+            '4027b49ccb9f42517e81aa9897a31c81fc89c32ae3162631040b218aa8b0e222')
+
+package() {
+     install -Dm755 "$srcdir/espeakup.initd" "$pkgdir/etc/init.d/espeakup"
+     install -Dm644 "$srcdir/espeakup.confd" "$pkgdir/etc/conf.d/espeakup"
+}

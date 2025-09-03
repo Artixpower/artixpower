@@ -1,0 +1,25 @@
+# Maintainer: Nathan Owens <ndowens@artixlinux.org>
+
+pkgname=qemu-guest-agent-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC qemu-guest-agent init"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-qemu-guest-agent')
+depends=('openrc' 'qemu-guest-agent')
+conflicts=('init-qemu-guest-agent')
+backup=("etc/conf.d/qemu-guest-agent")
+source=("qemu-guest-agent".{initd,confd})
+sha256sums=('681749319e4d0d020f6f7fe23fcc19ce26dd5ffe57f27982b62ee482d441b52c'
+            '0b613b13273154847f4c93c4fc714021533bff68638730d809537f02385baf27')
+b2sums=('84d29653f4d426ace39dbc7da849372bd4d9fccbdad74d8db0f26420dcffab343b5f154499a5ca4fb4056bc5a0a4dd2932af4e139e47c76b1ab62d77de690f13'
+        '546799fefad91644acc0cee1e5c3f4adfb3f12cf48831a6138bf23aaf9a7b36604a651107236f9cb08fb44b3a055b5bc01b34243dadd6dc6dde8c0478bdaa38f')
+
+package() {
+    install -Dm755 "$srcdir"/qemu-guest-agent.initd "$pkgdir"/etc/init.d/qemu-guest-agent
+    install -Dm644 "$srcdir"/qemu-guest-agent.confd "$pkgdir"/etc/conf.d/qemu-guest-agent
+}
+

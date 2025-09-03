@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=cronie-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC cronie init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-cronie' 'init-cron')
+depends=('openrc' 'cronie')
+conflicts=('fcron' 'init-cronie' 'init-cron')
+backup=('etc/init.d/cronie')
+source=('cronie.initd'
+        '80-cronie.hook')
+sha256sums=('4423ab44c307b21224c43f2fc9b310f4a7f8587bba7a472bd8194137a0f702b9'
+            '2f23d0a73bd6e5f250e43bf3f1e0b218026f268959fadc7ec78c346951cd2725')
+
+package() {
+    install -Dm755 "${srcdir}"/cronie.initd "${pkgdir}"/etc/init.d/cronie
+    install -Dt "${pkgdir}"/usr/share/libalpm/hooks -m644 *.hook
+}

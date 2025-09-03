@@ -1,0 +1,21 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=postgresql-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC postgresql init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-postgresql')
+depends=('openrc' 'postgresql')
+conflicts=('init-postgresql')
+source=("postgresql".{confd,initd})
+sha256sums=('e462e04a18020be379b5466e98a889292f2f8240701c5bc6e742d1e74352d393'
+            '8f067b6cf08f98d03e402421f1ce3871b7aaf5bbb94da804ac4aafed5eee4cfe')
+
+package() {
+	install -Dm755 "$srcdir"/postgresql.initd "$pkgdir"/etc/init.d/postgresql
+	install -Dm644 "$srcdir"/postgresql.confd "$pkgdir"/etc/conf.d/postgresql
+}

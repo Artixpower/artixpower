@@ -1,0 +1,25 @@
+# Contributor: Nathan Owens <ndowens@artixlinux.org>
+
+pkgname=deluge-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="${pkgname/-openrc//} OpenRC init"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-deluge')
+depends=('openrc' 'deluge')
+conflicts=('init-deluge')
+backup=('etc/conf.d/deluged')
+source=("deluged".{confd,initd}
+	      "deluge-web.initd")
+sha256sums=('d26dfc890d33cd52e173739ff76341eadc9a1dfc39f2e7328cfc0795d6b2befd'
+            'f485f43abc0c96d5dd4b08c6cc7afa9d801bcbb0cc16fb4bff44711918fae6b8'
+            '86b6f5ed159c136f12c91ec2aa593c07f309db305f31a9bf0ae1311572eafc82')
+
+package() {
+    install -Dm755 "${srcdir}"/deluged.initd "${pkgdir}"/etc/init.d/deluged
+    install -Dm644 "${srcdir}"/deluged.confd "${pkgdir}"/etc/conf.d/deluged
+    install -Dm755 "${srcdir}"/deluge-web.initd "${pkgdir}"/etc/init.d/deluge-web
+}

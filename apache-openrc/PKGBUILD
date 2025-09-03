@@ -1,0 +1,23 @@
+# Maintainer: artist for Artix Linux
+
+pkgname=apache-openrc
+pkgver=20241206
+pkgrel=1
+pkgdesc="OpenRC apache init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-apache')
+depends=('apache' 'openrc')
+conflicts=('init-apache')
+backup=('etc/conf.d/httpd')
+source=("httpd.initd"
+	"httpd.confd")
+sha256sums=('583f7e0ad6b66429768ee4bbd923dc10a9ab1e6b5c1ae7fbddd30871ba33ec83'
+            '30c5396e16cfa7648dd72dcafe025b15949bae6c248d9048100c7c2dc64a0d5d')
+
+package() {
+	install -Dm755 "${srcdir}"/httpd.initd "${pkgdir}"/etc/init.d/httpd
+	install -Dm644 "${srcdir}"/httpd.confd "${pkgdir}"/etc/conf.d/httpd
+}

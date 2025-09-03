@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+# Maintainer: nous <nous@artixlinux.org>
+
+pkgname=haveged-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC haveged init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-haveged')
+depends=('openrc' 'haveged')
+conflicts=('init-haveged')
+backup=('etc/conf.d/haveged')
+source=("haveged."{confd,initd})
+sha256sums=('e796a353534e8ec36b84a29ab4cbd738ebd18098efca5ed8d92b267a99dc58f6'
+            'f2882c612006491f5e415f76660edc67d6fbbd33b70988930483f2784dc6c63c')
+
+package() {
+	install -Dm755 "${srcdir}"/haveged.initd "${pkgdir}"/etc/init.d/haveged
+	install -Dm644 "${srcdir}"/haveged.confd "${pkgdir}"/etc/conf.d/haveged
+}

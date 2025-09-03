@@ -1,0 +1,22 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=samba-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC samba init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-samba')
+depends=('openrc' 'samba')
+conflicts=('init-samba')
+backup=('etc/conf.d/smb')
+source=("smb".{confd,initd})
+sha256sums=('a9fd496321491623113e6a275c7df95b511172917a9d9deca30cda6bfa6bbb98'
+            '981c963a9dcf54ffe75d8b1844c924912049d958bb13887545d4a37c3e867d0a')
+
+package() {
+	install -Dm755 "$srcdir"/smb.initd "$pkgdir"/etc/init.d/smb
+	install -Dm644 "$srcdir"/smb.confd "$pkgdir"/etc/conf.d/smb
+}

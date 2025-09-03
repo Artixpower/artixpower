@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=openssh-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC openssh init script"
+arch=("any")
+url="https://github.com/artix-linux/packages"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-openssh')
+depends=('openrc' 'openssh')
+conflicts=('init-openssh')
+backup=('etc/conf.d/sshd')
+source=("sshd.confd"
+        "sshd.initd")
+sha256sums=('d0abc00305e255eb8962e5e47dfd332ad5935a4acbae89cc28c0bd167cc0f5d6'
+            'a41a2dd450ce59f61e0cc0335d556eead4439001d70e213e6e732fcdc01138dc')
+
+package() {
+    install -Dm755 "${srcdir}"/sshd.initd "${pkgdir}"/etc/init.d/sshd
+    install -Dm644 "${srcdir}"/sshd.confd "${pkgdir}"/etc/conf.d/sshd
+}

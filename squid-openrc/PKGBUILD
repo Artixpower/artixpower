@@ -1,0 +1,26 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+# Contributor: nous <nous@artixlinux.org>
+
+pkgname=squid-openrc
+pkgver=20220313
+pkgrel=1
+pkgdesc="OpenRC squid init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'squid')
+provides=('init-squid')
+conflicts=('init-squid')
+backup=('etc/conf.d/squid')
+source=("squid.confd"
+        "squid.initd")
+sha256sums=('dd0b7ae99f8c409d4bfe3de21d84ce9c4adde8477e1e3ab5c114e7976666ed9c'
+            '1dc0a13300904a4eb478671cff54d75ae6fc0ff99cd3b6112a8da9b1391d14d6')
+
+package() {
+    install -Dm755 "$srcdir/squid.initd" "$pkgdir/etc/init.d/squid"
+    install -Dm644 "$srcdir/squid.confd" "$pkgdir/etc/conf.d/squid"
+}

@@ -1,0 +1,32 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=lm_sensors-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC lm_sensors init script"
+arch=("any")
+url="https://github.com/artix-linux/packages"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-lm_sensors')
+depends=('openrc' 'lm_sensors')
+conflicts=('init-lm_sensors')
+backup=('etc/conf.d/sensord'
+        'etc/conf.d/fancontrol'
+        'etc/conf.d/lm_sensors')
+source=("sensord".{confd,initd}
+        "fancontrol".{confd,initd}
+        "lm_sensors".{confd,initd})
+sha256sums=('0ce54c9c9055165ed87a348fa6a967a62ee228a0e1a42193bb577cd47d6cb0b0'
+            'c2555624a5fc3776127d646d16c16ad5acf2e7e6bbc341dc1ed315557bd68d4f'
+            'edffd2c89102a02e576dfa20d9c49a3e10f1f3b747e843fca63a8fe49c0a60ed'
+            '66caa430fc2e01c3106eb3f97e9ebb74f070d33ef88a3029dc8714b1e4690299'
+            '148c840ba5e701f6983bba2ebae6a087e8bf3e2b8276f09bc03ae3eadc011220'
+            '2bef0fc5ef25ba9035d190ae5c6b785eacf62a85c8c49f2e895bab26c9d2e759')
+
+package() {
+    for _i in sensord fancontrol lm_sensors ; do
+        install -Dm755 "$srcdir/$_i.initd" "$pkgdir/etc/init.d/$_i"
+        install -Dm644 "$srcdir/$_i.confd" "$pkgdir/etc/conf.d/$_i"
+    done
+}

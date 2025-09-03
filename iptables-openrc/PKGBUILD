@@ -1,0 +1,38 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=iptables-openrc
+pkgver=20230601
+pkgrel=1
+pkgdesc="OpenRC iptables init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-iptables' 'ebtables-openrc')
+depends=('openrc' 'iptables')
+conflicts=('init-iptables' 'ebtables-openrc')
+backup=('etc/conf.d/iptables'
+        'etc/conf.d/ip6tables')
+source=("iptables.confd"
+        "ip6tables.confd"
+        "iptables.initd"
+        "ebtables.confd"
+        "ebtables.initd")
+sha256sums=('83a3c7eb1c123aab6123fb46d67949f0bfd5c909015dddff93dab17c55e2eaa9'
+            'd48695e071e17fbf011d17f7a5a370b75fdd3e7726eeee92148e6ea9ad38716b'
+            '3185a7b35f4ce3ec70256c9bbcb74346ff02c7cdaad3fe3b85f6a8bd14e568e6'
+            '23f2ef80c8fa6545d004cca022fd80ec89b33f96f44ca4d29d5fdfa28778087d'
+            '5baf35a91b1f043c33e760eb362f6477292b063025cf543199a43d50e68a8ac4')
+
+package() {
+
+    for f in iptables ebtables; do
+        install -Dm755 "${srcdir}"/"$f".initd "${pkgdir}"/etc/init.d/"$f"
+        install -Dm644 "${srcdir}"/"$f".confd "${pkgdir}"/etc/conf.d/"$f"
+    done
+
+    install -Dm644 "${srcdir}"/ip6tables.confd "${pkgdir}"/etc/conf.d/ip6tables
+
+    install -Dm755 "${srcdir}"/iptables.initd "${pkgdir}"/etc/init.d/ip6tables
+
+}

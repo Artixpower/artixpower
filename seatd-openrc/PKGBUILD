@@ -1,0 +1,21 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=seatd-openrc
+pkgver=20220726
+pkgrel=1
+pkgdesc="OpenRC seatd init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+depends=('seatd' 'dbus-openrc')
+provides=('init-logind')
+conflicts=('init-logind' 'init-elogind')
+source=("seatd.initd")
+sha256sums=('ab534a61e1d481e838f0563805692c90283882012e2da8e7d22dff973b59498c')
+
+package() {
+    install -Dm755 "${srcdir}"/seatd.initd "${pkgdir}"/etc/init.d/seatd
+
+    install -d "${pkgdir}"/etc/runlevels/boot
+    ln -sf /etc/init.d/seatd "${pkgdir}"/etc/runlevels/boot/seatd
+}

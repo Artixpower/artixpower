@@ -1,0 +1,24 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2015 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License, v2
+
+VSFTPD_NAME=${SVCNAME##*.}
+VSFTPD_PID="/run/vsftpd.pid"
+VSFTPD_CONF_DEFAULT="/etc/vsftpd.conf"
+VSFTPD_CONF=${VSFTPD_CONF:-${VSFTPD_CONF_DEFAULT}}
+VSFTPD_EXEC=${VSFTPD_EXEC:-/usr/bin/vsftpd}
+
+supervisor=supervise-daemon
+pidfile="${VSFTPD_PID}"
+command=vsftpd
+command_args="${VSFTPD_CONF}"
+
+depend() {
+	need net
+	use dns logger
+}
+
+start_pre() {
+	VSFTPD_CONF="${VSFTPD_CONF}" \
+		/usr/lib/vsftpd-checkconfig.sh || return 1
+}

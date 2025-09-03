@@ -1,0 +1,2 @@
+# debuginfod-openrc
+

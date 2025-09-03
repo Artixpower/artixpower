@@ -1,0 +1,41 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+# Contributor: nous <nous@artixlinux.org>
+
+pkgname=libvirt-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC libvirt init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'libvirt')
+provides=('init-libvirt')
+conflicts=('init-libvirt')
+backup=('etc/conf.d/libvirtd')
+source=("libvirtd.confd"
+        "libvirtd.initd"
+        "virtlockd.initd"
+        "virtlogd.initd"
+        "libvirt-guests.confd"
+        "libvirt-guests.initd")
+sha256sums=('4f7fba7e64533868119c0f3355aa22932e163b208397323dc2cd96daadcc4079'
+            'c831ad2b5755898b7a19409cafbe1d8f7191ec4826ba6ab35365193da780c801'
+            'ea0a175f19e576d9dc72f9c7441739014328a2f4486666a136354510b40f9515'
+            '5a126eb9d17555c09df92af2e462b1a410dcd762066ae35539de9c4dd6438592'
+            'd5f85bb8c1d2010347f23badc422e98046b97a0066254739b5829fce07837d63'
+            '97ea5b646e734448bff628a650fad42430d98a9575b91d654dea4e4d0b75a408')
+
+package() {
+
+	for _c in libvirtd libvirt-guests ; do
+		install -Dm644 "$srcdir/$_c.confd" "$pkgdir/etc/conf.d/$_c"
+	done
+
+	for _i in libvirtd virtlockd virtlogd libvirt-guests ; do
+		install -Dm755 "$srcdir/$_i.initd" "$pkgdir/etc/init.d/$_i"
+	done
+}
+

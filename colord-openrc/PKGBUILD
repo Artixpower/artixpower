@@ -1,0 +1,20 @@
+# Maintainer: Nathan Owens <ndowens @ artixlinux.org>
+
+pkgname=colord-openrc
+pkgver=20210505
+pkgrel=1
+arch=("any")
+pkgdesc="Colord openrc init script"
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL')
+conflicts=('systemd-svsvcompat' 'init-colord')
+provides=('init-colord')
+groups=('openrc-world')
+depends=('openrc' 'colord')
+source=('colord.initd')
+sha256sums=('7bc342ad01d52c03d05d1572662c8f37b5ce7c93aab91739976f26b29430cadb')
+
+package() {
+  install -Dm755 "$srcdir/colord.initd" "$pkgdir/etc/init.d/colord"
+}
+

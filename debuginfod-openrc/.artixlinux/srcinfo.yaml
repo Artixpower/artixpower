@@ -1,0 +1,34 @@
+---
+version: 20250803-1
+pkgbase:
+  name: debuginfod-openrc
+  pkgdesc: OpenRC debuginfod init script
+  pkgver: 20250803
+  pkgrel: 1
+  url: https://gitea.artixlinux.org/packages/debuginfod-openrc
+  arch:
+    - any
+  groups:
+    - openrc-galaxy
+  license:
+    - GPL2
+  depends:
+    - openrc
+    - debuginfod
+  provides:
+    - init-debuginfod
+  conflicts:
+    - init-debuginfod
+  backup:
+    - etc/conf.d/debuginfod
+  source:
+    - debuginfod.confd
+    - debuginfod.initd
+    - 80-debuginfod.hook
+  sha256sums:
+    - 76910706b9fad0d2a2690832961ff2f9f2d8a5a952d282fbae5eceaea51630c1
+    - ced16b45240615d97aee0c8418e5477dcea263ba8870b7a164be39203300a436
+    - a82789006152258850afbfd070b1b3f642bfc610891ac02303446ce0a2581f74
+pkgname:
+  - name: debuginfod-openrc
+# generated with artixpkg 0.36.4-1-any

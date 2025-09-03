@@ -1,0 +1,23 @@
+# Maintainer: Nathan Owens <ndowens@artixlinux.org>
+
+pkgname=sndio-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="${pkgname/-openrc/} OpenRC init"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'sndio')
+provides=('init-sndio')
+conflicts=('init-sndio')
+backup=("etc/conf.d/${pkgname/-openrc/}d")
+source=("${pkgname/-openrc/}d.initd"
+	      "${pkgname/-openrc/}d.confd")
+b2sums=('20bb100720dc1b9805d4a1cafb321eb997af65fd98c8ba89f8912723ae22d655458cdfddebbe845eace7dc0617e3d9cdcc952a54561bf64b877f07f4d1e9c471'
+        'cf1a3c5fb096ab9dcadc8060b121c4c2199125e8fe4c4608fe2180f601c563d7abe23bc0962b6c868842cec827f01fe4a9ec4dd1ce096479476849ffbc9efd20')
+
+package() {
+  install -Dm755 "$srcdir/sndiod.initd" "$pkgdir/etc/init.d/sndiod"
+  install -Dm644 "$srcdir/sndiod.confd" "$pkgdir/etc/conf.d/sndiod"
+}

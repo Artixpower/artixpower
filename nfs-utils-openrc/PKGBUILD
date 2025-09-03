@@ -1,0 +1,44 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=nfs-utils-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC nfs-utils init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-nfs-utils')
+depends=('nfs-utils' 'rpcbind-openrc' 'device-mapper-openrc')
+conflicts=('init-nfs-utils')
+backup=('etc/conf.d/nfs'
+        'etc/conf.d/nfsclient')
+source=("nfs.confd"
+        "nfs.initd"
+        "nfsclient.confd"
+        "nfsclient.initd"
+        "rpc.idmapd.initd"
+        "rpc.pipefs.initd"
+        "rpc.gssd.initd"
+        "rpc.svcgssd.initd"
+        "rpc.statd.initd")
+sha256sums=('c652a4fe8a43dc68a818345db2b3acc560663b5b6c969324d4f23afb0fb96a94'
+            '48dc5c79d56c5d1adc5ae15e463373441d19ad3db9a0905586769098b92c0b44'
+            '29775c3d68e212fc1aa27d6714f7d8002b044313828b4731bb264599dd1c9f8e'
+            '48afadb221908a91b7256600ca92ff09c62ece2b57544326dd232f4421c686ae'
+            '25eb3ed61db95aa8ce6ec0c5cefe5028af2543fbbd3761c5ffa94e1fd0878411'
+            '1543e3e462ce2ca61e1f757679b9c3451a2672ee601335f1aa87190ee101757d'
+            '72d4ec1e191099783cb1a1c5621a28afcb6cdcfb1f5f7ba0820637d90b21de0c'
+            '5ac900e340338d5a765169e5c7961323467e3734a3129f04473a75c78f9e1a35'
+            '9201b2b16e60a8772b23c366ef4549d34be2ef009aa58edfb2ae28a3317f901a')
+
+package() {
+    for f in nfs nfsclient;do
+        install -Dm644 "${srcdir}"/"$f".confd "${pkgdir}"/etc/conf.d/"$f"
+        install -Dm755 "${srcdir}"/$f.initd "${pkgdir}"/etc/init.d/"$f"
+    done
+
+    for f in rpc.gssd rpc.idmapd rpc.pipefs rpc.statd rpc.svcgssd;do
+        install -Dm755 "${srcdir}"/"$f".initd "${pkgdir}"/etc/init.d/"$f"
+    done
+}

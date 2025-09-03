@@ -1,0 +1,25 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+pkgname=ufw-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC ufw init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'ufw')
+provides=('init-ufw')
+conflicts=('init-ufw')
+backup=('etc/conf.d/ufw')
+source=("ufw.confd"
+        "ufw.initd")
+sha256sums=('069aa7382b40aecebf26ef53f3f4c49890314e0357925c84b3c15f1d0b913be0'
+            'ce4f6c0246a5356a84762d192039d717918da4e75133233a741e299775adccca')
+
+package() {
+    install -Dm755 "$srcdir/ufw.initd" "$pkgdir/etc/init.d/ufw"
+    install -Dm644 "$srcdir/ufw.confd" "$pkgdir/etc/conf.d/ufw"
+}

@@ -1,0 +1,24 @@
+# Maintainer: Rafli Akmal <rafliakmaltejakusuma@gmail.com>
+# Contributor: artoo <artoo@artixlinux.org>
+# Contributor: Oscar Campos <damnwidget@artixlinux.org>
+
+pkgname=dovecot-openrc
+pkgver=20210529
+pkgrel=2
+pkgdesc="OpenRC dovecot init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'dovecot')
+provides=('init-dovecot')
+conflicts=('init-dovecot')
+backup=('etc/conf.d/dovecot')
+source=("dovecot".{confd,initd})
+sha256sums=('2aa928e26d529bc34dc430991b717f31621c688d79af6142a52257d33ea852ba'
+            '75e12bdc57fff9dd2ace0f4cdb1a5f0c44621d4f6914af3424f49d0c813f0697')
+
+package() {
+    install -Dm755 "$srcdir/dovecot.initd" "$pkgdir/etc/init.d/dovecot"
+    install -Dm644 "$srcdir/dovecot.confd" "$pkgdir/etc/conf.d/dovecot"
+}

@@ -1,0 +1,18 @@
+#!/usr/bin/openrc-run
+
+name=deluged
+description="Deluge daemon"
+
+supervisor=supervise-daemon
+command="/usr/bin/deluged"
+command_args="--port ${PORT:-8121} -u ${UI_IP:-127.0.0.1}"
+command_args_foreground="-d"
+command_user="deluge:deluge"
+
+depends() {
+	needs net
+}
+
+start_pre() {
+	checkpath -d -o "$command_user" /run/deluge
+}

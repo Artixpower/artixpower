@@ -1,0 +1,16 @@
+#!/usr/bin/openrc-run
+
+supervisor=supervise-daemon
+command="/usr/bin/lightdm"
+
+depend() {
+    need localmount
+
+    after bootmisc consolefont modules netmount
+    after ypbind autofs openvpn gpm lircmd
+    after quota keymaps acpid
+    before alsasound
+    want logind
+    use xfs
+    provide xdm display-manager
+}

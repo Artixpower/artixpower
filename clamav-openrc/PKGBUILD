@@ -1,0 +1,26 @@
+# Maintainer: Nathan Owens <ndowens @ artixlinux.org>
+
+pkgname=clamav-openrc
+pkgver=20210506
+pkgrel=1
+pkgdesc="Clamav openrc init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('APACHE')
+groups=('openrc-world')
+provides=('init-clamav')
+depends=('acpid-openrc' 'clamav')
+optdepends=('clamav-unofficial-sigs')
+conflicts=('init-clamav')
+source=('clamd.initd'
+        'clamd.confd'
+        'clamd.install')
+sha256sums=('25a490ac731c58b7bc17fa219e7a848250d4015006e34c0716476b5e5954fb0a'
+            '28ebd47810b0568fc7692218867d6804a1df70290681462f5555e230ca817732'
+            '6f3e2dead94b056ff8a85575d3681f63b13c388a11e4b995822a8c09a12fbed8')
+install=clamd.install
+
+package() {
+    install -Dm644 "${srcdir}"/clamd.confd "${pkgdir}"/etc/conf.d/clamd
+    install -Dm755 "${srcdir}"/clamd.initd "${pkgdir}"/etc/init.d/clamd
+}

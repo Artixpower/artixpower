@@ -1,0 +1,128 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2014 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+extra_started_commands="reload"
+
+exportfs=/usr/bin/exportfs
+  mountd=/usr/bin/rpc.mountd
+    nfsd=/usr/bin/rpc.nfsd
+smnotify=/usr/bin/sm-notify
+
+depend() {
+	local myneed=""
+	myneed="${myneed} $(
+		awk '!/^[[:space:]]*#/ {
+			# clear the path to avoid spurious matches
+			$1 = "";
+			if ($0 ~ /[(][^)]*sec=(krb|spkm)[^)]*[)]/) {
+				print "rpc.svcgssd"
+				exit 0
+			}
+		}' /etc/exports /etc/exports.d/*.exports 2>/dev/null
+	)"
+	config /etc/exports /etc/exports.d/*.exports
+	need portmap rpc.statd ${myneed} ${NFS_NEEDED_SERVICES}
+	use ypbind net dns rpc.rquotad rpc.idmapd rpc.svcgssd
+	after quota
+}
+
+mkdir_nfsdirs() {
+	local d
+	for d in v4recovery v4root ; do
+		d="/var/lib/nfs/${d}"
+		[ ! -d "${d}" ] && mkdir -p "${d}"
+	done
+}
+
+waitfor_exportfs() {
+	local pid=$1
+	( sleep ${EXPORTFS_TIMEOUT:-30}; kill -9 ${pid} 2>/dev/null ) &
+	wait $1
+}
+
+mount_nfsd() {
+	if [ -e /proc/modules ] ; then
+		if ! grep -qs nfsd /proc/filesystems ; then
+			modprobe -q nfsd
+		fi
+		if grep -qs nfsd /proc/modules ; then
+			killall -q -HUP rpc.idmapd
+		fi
+	fi
+
+	if grep -qs nfsd /proc/filesystems ; then
+		if ! mountinfo -q /proc/fs/nfsd ; then
+			ebegin "Mounting nfsd filesystem in /proc"
+			mount -t nfsd -o nodev,noexec,nosuid nfsd /proc/fs/nfsd
+			eend $?
+		fi
+
+		local o
+		for o in ${OPTS_NFSD} ; do
+			echo "${o#*=}" > "/proc/fs/nfsd/${o%%=*}"
+		done
+	fi
+}
+
+start_it() {
+	ebegin "Starting NFS $1"
+	shift
+	"$@"
+	eend $?
+	ret=$((ret + $?))
+}
+start() {
+	mount_nfsd
+	mkdir_nfsdirs
+
+	if grep -qs '^[[:space:]]*"\?/' /etc/exports /etc/exports.d/*.exports ; then
+		ebegin "Exporting NFS directories"
+		${exportfs} -r &
+		waitfor_exportfs $!
+		eend $?
+	fi
+
+	local ret=0
+	start_it mountd ${mountd} ${OPTS_RPC_MOUNTD}
+	start_it daemon ${nfsd} ${OPTS_RPC_NFSD}
+	[ -x "${smnotify}" ] && start_it smnotify ${smnotify} ${OPTS_SMNOTIFY}
+	return ${ret}
+}
+
+stop() {
+	local ret=0
+
+	ebegin "Stopping NFS mountd"
+	start-stop-daemon --stop --exec ${mountd}
+	eend $?
+	ret=$((ret + $?))
+
+	ebegin "Stopping NFS daemon"
+	start-stop-daemon --stop --name nfsd --user root --signal 2
+	eend $?
+	ret=$((ret + $?))
+	rpc.nfsd 0
+
+	if [ "${RC_CMD}" != "restart" ] ; then
+		ebegin "Unexporting NFS directories"
+
+		${exportfs} -ua &
+		waitfor_exportfs $!
+		eend $?
+	fi
+
+	return ${ret}
+}
+
+reload() {
+	ebegin "Reloading /etc/exports"
+	${exportfs} -r 1>&2 &
+	waitfor_exportfs $!
+	eend $?
+}
+
+restart() {
+	svc_stop
+	svc_start
+}

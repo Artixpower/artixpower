@@ -1,0 +1,22 @@
+# Maintainer: nous@artixlinux.org
+
+pkgname=distcc-openrc
+pkgver=20230810
+pkgrel=1
+pkgdesc="OpenRC distcc init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'distcc')
+provides=('init-distcc')
+conflicts=('init-distcc')
+backup=('etc/conf.d/distcc')
+source=("distcc."{initd,confd})
+sha256sums=('e9c8fdf5607f8bc9691e080b2a7bd22aebfbde9f1b41aafbbf8ab3471551e4c2'
+            '4ce65bb986c4d97c22f03246488a1f1104b4cba5ea2f5eca649109b7af2ee0c1')
+
+package() {
+	install -Dm755 "$srcdir/distcc.initd" "$pkgdir/etc/init.d/distcc"
+	install -Dm644 "$srcdir/distcc.confd" "$pkgdir/etc/conf.d/distcc"
+}

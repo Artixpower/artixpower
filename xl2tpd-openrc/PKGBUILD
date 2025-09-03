@@ -1,0 +1,22 @@
+# Maintainer: Nathan Owens <ndowens@artixlinux.org>
+
+pkgname=xl2tpd-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="openrc script for xl2tpd"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'xl2tpd')
+provides=('init-xl2tpd')
+conflicts=('init-xl2tpd')
+source=('xl2tpd.initd')
+b2sums=('5ec046542d59bbc80a4e1b7f98c97ae59fe9e06b87f12827388ede578846ce8ad8248df61495bbb9dd0c8662bb539068d9e155860a631c931de6e1d8a8efa66b')
+
+package() {
+  cd "$srcdir"
+  install -Dm755 xl2tpd.initd "$pkgdir"/etc/init.d/xl2tpd
+}
+
+# vim:set ts=2 sw=2 et:

@@ -1,0 +1,22 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=pcsclite-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC pcsclite init script"
+arch=("any")
+url="https://gitea.artlxinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'pcsclite')
+provides=('init-pcsclite')
+conflicts=('init-pcsclite')
+source=("pcscd.initd"
+	    "pcscd.confd")
+sha256sums=('dddd871d0e41718c06ab9cdd4454bdac335e11967d0a73d85f73003dcc671f11'
+            '75c38f3d60fc6506d6bccdefeace24143cae2786b5665770ec69aed3140407d4')
+
+package() {
+	install -Dm755 "$srcdir/pcscd.initd" "$pkgdir/etc/init.d/pcscd"
+	install -Dm644 "$srcdir/pcscd.confd" "$pkgdir/etc/conf.d/pcscd"
+}

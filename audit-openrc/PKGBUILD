@@ -1,0 +1,32 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=audit-openrc
+pkgver=20210505
+pkgrel=3
+pkgdesc="OpenRC audit init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-audit')
+depends=('openrc' 'audit')
+conflicts=('init-audit')
+source=("auditd.initd"
+        "auditd.confd"
+        "audit.rules.stop.pre"
+        "audit.rules.stop.post"
+        "audit.rules")
+sha256sums=('815d60bfe276afe59fb59355159f2675d6785f6010d70622f7eb8fc8c6f2a8b8'
+            'bff88db7b3759870e702badca491f9699498e304b4ca77eb5bda21a7f34e4ebb'
+            '664b686eaf383deecdefdad2d96173cfe4208de0eb3508a0e2b0ce0067e43b50'
+            '4c972d0da35eed3510b8ba2977d9498e7d64808eb999651c9362180d4b942379'
+            '94f4f6c1dad194ad7a4caa719023f783eba6743fa735e9f61d75ab0ccc1c35ad')
+
+package() {
+    install -Dm644 "${srcdir}"/auditd.confd "${pkgdir}"/etc/conf.d/auditd
+    install -Dm755 "${srcdir}"/auditd.initd "${pkgdir}"/etc/init.d/auditd
+
+    for f in audit.rules audit.rules.stop.pre audit.rules.stop.post;do
+        install -Dm755 "${srcdir}/$f" "${pkgdir}"/etc/audit/"$f"
+    done
+}

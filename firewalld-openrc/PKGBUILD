@@ -1,0 +1,21 @@
+# Maintainer: Nathan Owens <ndowens @ artixlinux.org>
+# Submitter: alium@artixlinux.org
+
+pkgname=firewalld-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC firewalld init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'firewalld')
+provides=('init-firewalld')
+conflicts=('init-firewalld')
+backup=('etc/conf.d/firewalld')
+source=("firewalld.initd")
+sha256sums=('53ed08a1e2a45fae27e3dd30022b91f71801092332d158af0467f78723d56fd1')
+
+package() {
+	install -Dm755 "$srcdir/firewalld.initd" "$pkgdir/etc/init.d/firewalld"
+}

@@ -1,0 +1,41 @@
+# Maintainer: Artoo <artoo@artixlinux.org>
+
+pkgbase=pipewire-openrc
+pkgname=(pipewire-openrc pipewire-pulse-openrc)
+pkgver=20250308
+pkgrel=2
+pkgdesc="openrc user service script for pipewire"
+arch=("any")
+url="https://artixlinux.org"
+groups=('openrc-world')
+license=('GPL-2.0-or-later')
+makedepends=(
+    'avahi-openrc'
+    'dbus-openrc'
+    'pipewire'
+    'pipewire-pulse'
+)
+source=(
+    pipewire{,-pulse}.user.initd
+)
+sha256sums=('affa8120a5cc070256f8b357ca947c312e262acf6b7c1c18a7c3cfd3cb9c362e'
+            'e7af2160c453ff797db3aa3aace61e0f27dc88d90239b6be318762588cf483cd')
+
+package_pipewire-openrc() {
+    depends+=(
+        'dbus-openrc'
+        'pipewire'
+    )
+
+    install -Dm755 pipewire.user.initd "$pkgdir"/etc/user/init.d/pipewire
+}
+
+package_pipewire-pulse-openrc() {
+    depends+=(
+        'pipewire-openrc'
+        'pipewire-pulse'
+        'avahi-openrc'
+    )
+
+    install -Dm755 pipewire-pulse.user.initd "$pkgdir"/etc/user/init.d/pipewire-pulse
+}

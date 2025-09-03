@@ -1,0 +1,31 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=mdadm-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC mdadm init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-mdadm')
+depends=('openrc' 'mdadm')
+conflicts=('init-mdadm')
+backup=('etc/conf.d/mdadm')
+source=("mdadm.confd"
+        "mdadm.initd"
+        "mdraid.confd"
+        "mdraid.initd")
+sha256sums=('ec55674955af7a31da51b8b72b599e8519809287dad796a9b16155bcba471b79'
+            '19c26c3eac1cfceafb4ba8de66ea83a4e5ed12a3012913f1d24511edf796c12a'
+            'b489ced10391d4295bb8ca29e128b0d4217c290f1b4e37b05f5a9275048d289d'
+            '761c36a7c34271025ca96138f408138233359dd5bce1f876e2bac69b3eabdfe1')
+
+package() {
+    for f in mdadm mdraid;do
+        install -Dm644 "${srcdir}"/"$f".confd "${pkgdir}"/etc/conf.d/"$f"
+        install -Dm755 "${srcdir}"/"$f".initd "${pkgdir}"/etc/init.d/"$f"
+    done
+}
+
+

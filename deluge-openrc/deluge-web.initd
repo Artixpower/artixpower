@@ -1,0 +1,19 @@
+#!/usr/bin/openrc-run
+
+name="deluge-web"
+description="Deluge web daemon"
+
+supervisor=supervise-daemon
+pidfile=/run/deluge/deluge-web.pid
+command=/usr/bin/deluge-web
+command_user="deluge:deluge"
+command_args_foreground="-d"
+
+depend() {
+	want deluged
+	after deluged
+}
+
+start_pre() {
+	checkpath -d -o "$command_user" /run/deluge
+}
