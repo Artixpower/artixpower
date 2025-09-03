@@ -1,0 +1,17 @@
+pkgname=openrc-init
+pkgver=1
+pkgrel=1
+arch=('any')
+pkgdesc="ArtixPower openrc packages for base"
+license=('GPL')
+
+depends=(
+  'openrc' 'dbus-openrc' 'elogind-openrc' 'polkit'
+  'ntp-openrc' 'cronie-openrc' 'openssh-openrc'
+
+)
+
+conflitcs=('systemd' 'systemd-libs')
+
+package() { :; }
+
