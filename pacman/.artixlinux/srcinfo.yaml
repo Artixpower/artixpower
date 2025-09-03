@@ -1,0 +1,70 @@
+---
+version: 7.0.0.r6.gc685ae6-6
+pkgbase:
+  name: pacman
+  pkgdesc: A library-based package manager with dependency support
+  pkgver: 7.0.0.r6.gc685ae6
+  pkgrel: 6
+  url: https://www.archlinux.org/pacman/
+  arch:
+    - x86_64
+  license:
+    - GPL-2.0-or-later
+  checkdepends:
+    - fakechroot
+    - python
+  makedepends:
+    - asciidoc
+    - doxygen
+    - git
+    - meson
+  depends:
+    - bash
+    - coreutils
+    - curl
+    - libcurl.so
+    - gawk
+    - gettext
+    - glibc
+    - gnupg
+    - gpgme
+    - libgpgme.so
+    - grep
+    - libarchive
+    - libarchive.so
+    - openssl
+    - libcrypto.so
+    - artix-mirrorlist
+  optdepends:
+    - 'base-devel: required to use makepkg'
+    - 'perl-locale-gettext: translation support in makepkg-template'
+  provides:
+    - libalpm.so
+  backup:
+    - etc/pacman.conf
+    - etc/makepkg.conf
+    - etc/makepkg.conf.d/rust.conf
+  source:
+    - git+https://gitlab.archlinux.org/pacman/pacman.git#tag=v7.0.0?signed
+    - revertme-makepkg-remove-libdepends-and-libprovides.patch::https://gitlab.archlinux.org/pacman/pacman/-/commit/354a300cd26bb1c7e6551473596be5ecced921de.patch
+    - pacman.conf
+    - makepkg.conf
+    - alpm.sysusers
+    - rust.conf
+    - extracolors.patch
+    - repo-remove-r.patch
+  validpgpkeys:
+    - 6645B0A8C7005E78DB1D7864F99FFE0FEAE999BD
+    - B8151B117037781095514CA7BBDFFC92306B1121
+  sha256sums:
+    - 06d082c3ce6f0811ca728515aa82d69d372800bd3ada99f5c445ef9429b6e3a6
+    - b3bce9d662e189e8e49013b818f255d08494a57e13fc264625f852f087d3def2
+    - 03b3165fde80c3a5889ea5f9d3de190704825a262478f64a0b5d12a50deda9f3
+    - 06ec1332f835a33de2b26ae4517ffc00fbabe3abf311bd0c0d86e8f7c99575dd
+    - c8760d7ebb6c9817d508c691c67084be251cd9c8811ee1ccf92c1278bad74c1c
+    - 6fe03e6ea3f69d99d59a48847a8ae97c2160fca847c7aedf7b89d05e4aa9386d
+    - a78f366eee71610be1a2da1e533128af3ef188ff9ab577f3eab82ba69ad02466
+    - f563c81338d462f3c3bbcc182b4eb4139abf078acb119c0bc730e4e777b9eb2e
+pkgname:
+  - name: pacman
+# generated with artixpkg 0.36.3-1-any

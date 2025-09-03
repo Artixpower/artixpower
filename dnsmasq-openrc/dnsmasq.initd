@@ -1,0 +1,29 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2018 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License, v2 or later
+
+extra_started_commands="reload rotate"
+
+supervisor=supervise-daemon
+command="/usr/bin/dnsmasq"
+command_args="${DNSMASQ_OPTS} -k"
+retry="TERM/3/TERM/5"
+
+depend() {
+	provide dns
+	need localmount net
+	after bootmisc
+	use logger
+}
+
+reload() {
+	ebegin "Reloading ${RC_SVCNAME}"
+	supervise-daemon dnsmasq --signal HUP
+	eend $?
+}
+
+rotate() {
+	ebegin "Reopening ${RC_SVCNAME} log file"
+	supervise-daemon dnsmasq --signal USR2
+	eend $?
+}

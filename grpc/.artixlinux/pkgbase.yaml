@@ -1,0 +1,71 @@
+---
+actions:
+  addRepo: world-gremlins
+  removeRepo: null
+  triggersBuild: false
+  triggersRebuild: true
+  triggersRepoAdd: true
+  triggersRepoRemove: false
+  triggersNoCheck: false
+repos:
+  system-goblins:
+    version: null
+    packages: []
+    debug: []
+  system-gremlins:
+    version: null
+    packages: []
+    debug: []
+  system:
+    version: null
+    packages: []
+    debug: []
+  world-goblins:
+    version: null
+    packages: []
+    debug: []
+  world-gremlins:
+    version: 1.74.1-3
+    packages:
+      - grpc-1.74.1-3-x86_64.pkg.tar.zst
+      - python-grpcio-1.74.1-3-x86_64.pkg.tar.zst
+      - python-grpcio-tools-1.74.1-3-x86_64.pkg.tar.zst
+      - php-grpc-1.74.1-3-x86_64.pkg.tar.zst
+      - php-legacy-grpc-1.74.1-3-x86_64.pkg.tar.zst
+      - grpc-cli-1.74.1-3-x86_64.pkg.tar.zst
+    debug: []
+  world:
+    version: 1.74.1-2
+    packages:
+      - grpc-1.74.1-2-x86_64.pkg.tar.zst
+      - python-grpcio-1.74.1-2-x86_64.pkg.tar.zst
+      - python-grpcio-tools-1.74.1-2-x86_64.pkg.tar.zst
+      - php-grpc-1.74.1-2-x86_64.pkg.tar.zst
+      - php-legacy-grpc-1.74.1-2-x86_64.pkg.tar.zst
+      - grpc-cli-1.74.1-2-x86_64.pkg.tar.zst
+    debug: []
+  lib32-goblins:
+    version: null
+    packages: []
+    debug: []
+  lib32-gremlins:
+    version: null
+    packages: []
+    debug: []
+  lib32:
+    version: null
+    packages: []
+    debug: []
+  galaxy-goblins:
+    version: null
+    packages: []
+    debug: []
+  galaxy-gremlins:
+    version: null
+    packages: []
+    debug: []
+  galaxy:
+    version: null
+    packages: []
+    debug: []
+team: world

@@ -1,0 +1,43 @@
+---
+version: 3.8.1-1
+pkgbase:
+  name: libarchive
+  pkgdesc: Multi-format archive and compression library
+  pkgver: 3.8.1
+  pkgrel: 1
+  url: https://libarchive.org/
+  arch:
+    - x86_64
+  license:
+    - BSD-2-Clause
+  makedepends:
+    - git
+  depends:
+    - acl
+    - libacl.so
+    - bzip2
+    - libbz2.so
+    - glibc
+    - libxml2
+    - libxml2.so
+    - lz4
+    - openssl
+    - libcrypto.so
+    - xz
+    - liblzma.so
+    - zlib
+    - libz.so
+    - zstd
+    - libzstd.so
+  provides:
+    - libarchive.so
+  source:
+    - git+https://github.com/libarchive/libarchive.git?signed#tag=v3.8.1
+  validpgpkeys:
+    - A5A45B12AD92D964B89EEE2DEC560C81CEC2276E
+    - DB2C7CF1B4C265FAEF56E3FC5848A18B8F14184B
+  sha256sums:
+    - 1857fc0288334ba5de7a0e9acbec647f610925c692c513a1a8b2e06dc11035c4
+pkgname:
+  - name: libarchive
+# generated with artixpkg 0.36.3-1-any

@@ -1,0 +1,65 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+# Contributor: Daniel Micay <danielmicay@gmail.com>
+# Contributor: Patryk Kowalczyk < patryk at kowalczyk dot ws>
+
+pkgbase=libseccomp
+pkgname=(libseccomp python-libseccomp)
+pkgver=2.5.6
+pkgrel=1
+pkgdesc='Enhanced seccomp library'
+arch=("powerpc")
+license=(LGPL-2.1-only)
+url="https://github.com/seccomp/libseccomp"
+checkdepends=(
+  valgrind
+)
+makedepends=(
+  cython
+  glibc
+  gperf
+  python-setuptools
+)
+source=(https://github.com/seccomp/${pkgname}/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz{,.asc})
+sha256sums=('04c37d72965dce218a0c94519b056e1775cf786b5260ee2b7992956c4ee38633'
+            'SKIP')
+b2sums=('4095fcd1cedefa6dea60b719af63093e4ee3fd5372deb01e3a7c0ddecb5d032e371807a40f8f7df37107848d052702448512740b4ac8e4b078dc792d374d61a4'
+        'SKIP')
+validpgpkeys=(
+  '7100AADFAE6E6E940D2E0AD655E45A5AE8CA7C8A' # Paul Moore <paul@paul-moore.com>
+  '47A68FCE37C7D7024FD65E11356CE62C2B524099' # Tom Hromatka <tom.hromatka@oracle.com>
+)
+
+prepare() {
+  cd ${pkgbase}-${pkgver}
+  autoreconf -fiv
+}
+
+build() {
+  cd ${pkgbase}-${pkgver}
+  ./configure --prefix=/usr
+  make
+  cd src/python
+  env VERSION_RELEASE=${pkgver} python setup.py build
+}
+
+check() {
+  cd ${pkgbase}-${pkgver}
+  make check
+}
+
+package_libseccomp() {
+  depends=(glibc)
+  provides=(libseccomp.so)
+  cd ${pkgbase}-${pkgver}
+  make DESTDIR="${pkgdir}" install
+  install -Dm 644 CHANGELOG README.md SECURITY.md -t "${pkgdir}/usr/share/doc/${pkgname}"
+}
+
+package_python-libseccomp() {
+  depends=(python glibc)
+  cd ${pkgbase}-${pkgver}/src/python
+  env VERSION_RELEASE=${pkgver} python setup.py install --root="${pkgdir}" --prefix=/usr -O1 --skip-build
+}
+
+# vim: ts=2 sw=2 et:

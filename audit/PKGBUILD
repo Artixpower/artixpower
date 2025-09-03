@@ -1,0 +1,153 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Maintainer: David Runge <dvzrv@archlinux.org>
+# Contributor: Christian Rebischke <Chris.Rebischke@archlinux.org>
+# Contributor: Daniel Micay <danielmicay@gmail.com>
+# Contributor: <kang@insecure.ws>
+# Contributor: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
+# Contributor: Connor Behan <connor.behan@gmail.com>
+# Contributor: henning mueller <henning@orgizm.net>
+
+pkgbase=audit
+_name=audit-userspace
+pkgname=(
+  audit
+  python-audit
+)
+pkgver=4.0.5
+pkgrel=1
+pkgdesc='Userspace components of the audit framework'
+url="https://github.com/linux-audit/audit-userspace"
+arch=("powerpc")
+license=(
+  GPL-2.0-or-later
+  LGPL-2.0-or-later
+)
+makedepends=(
+  apparmor
+  glibc
+  krb5
+  libcap-ng
+  libldap
+  linux-api-headers
+  python
+  swig
+)
+options=(emptydirs)
+source=(
+  $url/archive/v$pkgver/$_name-v$pkgver.tar.gz
+  $pkgbase.tmpfiles
+  $pkgbase-4.0.5-executable_paths.patch
+)
+sha512sums=('14fa19922cf6436284e1448d5a0e069ce5066d2d49d28679fe3ad019be60c133aee6e345b36e0f482ea1fdeadad7d78676f931aab1c25b91a2d0b445dce3eedf'
+            '1750741755f58d0ae19ed2c30e136d05560dc12ec613a502bad12f47c6b70432d30b3a16f3f1574c8433ad2701428d1c1d567a4d3b55be19abac300310c831d9'
+            '3f6d9701991260d4a995aacbd322b102ec3e7a821cb8bb8e6c9a1ef9d04f9f9f7e37ba6c2a2c33675d375ee5adf7c7b95d4ea6b8e5cccc3d27ea0b550dd1eb59')
+b2sums=('eaa3106f4ec4fae9a356e33717922131975c5421977af4baad9364f80a4c72a07d725f32b2bf39f49b6ff6063365fd3f047b3eb209c231abaaff67a4506ec2f7'
+        '549ebbbc9e43277d44d0dc5bfd8ca2926628322d898479171b2707dd004968d036ef792b442548af90ad56dea868a72c88b5cf3bb93ea70cb8bbed82747ad9b5'
+        'ccd7342df5db1bd5aef77f92041d7e4f671bcf30a5f514411688d664d198225464aa5588e5e6d65e0e0ff3eb5d29c5ca0fee8cbcd4477f425cdb77837e884c1c')
+
+_pick() {
+  local p="$1" f d; shift
+  for f; do
+    d="$srcdir/$p/${f#$pkgdir/}"
+    mkdir -p "$(dirname "$d")"
+    mv "$f" "$d"
+    rmdir -p --ignore-fail-on-non-empty "$(dirname "$f")"
+  done
+}
+
+prepare() {
+  # use /usr and /bin merge compatible paths in configs
+  patch -Np1 -d $pkgbase-userspace-$pkgver -i ../$pkgbase-4.0.5-executable_paths.patch
+
+  cd $_name-$pkgver
+  autoreconf -fiv
+}
+
+build() {
+  local configure_options=(
+    --enable-systemd=no
+    --enable-gssapi-krb5=yes
+    --enable-zos-remote
+    --libexecdir=/usr/lib/audit
+    --prefix=/usr
+    --runstatedir=/run
+    --sbindir=/usr/bin
+    --sysconfdir=/etc
+    --with-apparmor=yes
+    --with-io_uring=yes
+    --with-libcap-ng=yes
+    --with-python3=yes
+  )
+
+  cd $_name-$pkgver
+  ./configure "${configure_options[@]}"
+  # prevent excessive overlinking due to libtool
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+package_audit() {
+  depends=(
+    glibc
+    krb5 libkrb5.so libgssapi_krb5.so
+    libcap-ng libcap-ng.so
+  )
+  optdepends=(
+    'libldap: for audispd-zos-remote'
+    'sh: for augenrules'
+  )
+  provides=(
+    libaudit.so
+    libauparse.so
+  )
+  backup=(
+    etc/libaudit.conf
+    etc/audit/audit-stop.rules
+    etc/audit/auditd.conf
+    etc/audit/audisp-remote.conf
+    etc/audit/zos-remote.conf
+    etc/audit/plugins.d/af_unix.conf
+    etc/audit/plugins.d/au-remote.conf
+    etc/audit/plugins.d/audispd-zos-remote.conf
+    etc/audit/plugins.d/syslog.conf
+  )
+
+  make DESTDIR="$pkgdir" install -C $_name-$pkgver
+
+  install -vDm 644 $_name-$pkgver/{{README,SECURITY}.md,ChangeLog} -t "$pkgdir/usr/share/doc/$pkgname/"
+
+  # add rules.d dir to satisfy augenrules
+  install -vdm 755 "$pkgdir/etc/audit/rules.d/"
+  # add config dir for audisp
+  install -vdm 755 "$pkgdir/etc/audisp"
+
+  # add factory files
+  install -vdm 755 "$pkgdir/usr/share/factory/"
+  cp -av "$pkgdir/etc" "$pkgdir/usr/share/factory/"
+
+  # add tmpfiles.d integration for factory files and file permissions
+  install -vDm 644 $pkgbase.tmpfiles "$pkgdir/usr/lib/tmpfiles.d/$pkgbase.conf"
+
+  # remove legacy files
+  rm -frv "$pkgdir/usr/lib/audit"
+
+  (
+    cd "$pkgdir"
+    _pick python-audit usr/lib/python*
+  )
+
+  rm -r $pkgdir/usr/lib/systemd
+}
+
+package_python-audit() {
+  pkgdesc+=' - Python bindings'
+  depends=(
+    audit libaudit.so libauparse.so
+    glibc
+    python
+  )
+
+  mv -v $pkgname/* "$pkgdir"
+}
+
+# vim: ts=2 sw=2 et:

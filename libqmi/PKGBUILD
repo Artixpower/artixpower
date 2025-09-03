@@ -1,0 +1,71 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+
+pkgbase=libqmi
+pkgname=(
+  libqmi
+  libqmi-docs
+)
+pkgver=1.36.0
+pkgrel=1
+pkgdesc="QMI modem protocol helper library"
+url="https://www.freedesktop.org/wiki/Software/libqmi/"
+arch=("powerpc")
+license=(GPL-2.0-or-later)
+depends=(
+  bash
+  gcc-libs
+  glib2
+  glibc
+  libgudev
+  libmbim
+  libqrtr-glib
+)
+makedepends=(
+  bash-completion
+  git
+  gobject-introspection
+  gtk-doc
+  help2man
+  meson
+)
+source=("git+https://gitlab.freedesktop.org/mobile-broadband/libqmi.git#tag=${pkgver/[a-z]/-&}")
+b2sums=('SKIP')
+validpgpkeys=(
+  A814D09B9C5BC01945A64308AECE0239C6606AD5 # Aleksander Morgado <aleksandermj@chromium.org>
+  3A948E16E8860C68CD68441D734614319E26A433 # Dan Williams <dan@ioncontrol.co>
+)
+
+prepare() {
+  cd libqmi
+}
+
+build() {
+  local meson_options=(
+    -D gtk_doc=true
+  )
+
+  artix-meson libqmi build "${meson_options[@]}"
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package_libqmi() {
+  provides=(libqmi-glib.so)
+
+  meson install -C build --destdir "$pkgdir"
+
+  mkdir -p doc/usr/share
+  mv {"$pkgdir",doc}/usr/share/gtk-doc
+}
+
+package_libqmi-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+
+  mv doc/* "$pkgdir"
+}
+
+# vim:set sw=2 sts=-1 et:

@@ -1,0 +1,63 @@
+---
+actions:
+  addRepo: system
+  removeRepo: system-gremlins
+  triggersBuild: false
+  triggersRebuild: false
+  triggersRepoAdd: true
+  triggersRepoRemove: true
+  triggersNoCheck: false
+repos:
+  system-goblins:
+    version: null
+    packages: []
+    debug: []
+  system-gremlins:
+    version: null
+    packages: []
+    debug: []
+  system:
+    version: 2.42+r17+gd7274d718e6f-1
+    packages:
+      - glibc-2.42+r17+gd7274d718e6f-1-x86_64.pkg.tar.zst
+      - lib32-glibc-2.42+r17+gd7274d718e6f-1-x86_64.pkg.tar.zst
+      - glibc-locales-2.42+r17+gd7274d718e6f-1-x86_64.pkg.tar.zst
+    debug:
+      - glibc-debug-2.42+r17+gd7274d718e6f-1-x86_64.pkg.tar.zst
+  world-goblins:
+    version: null
+    packages: []
+    debug: []
+  world-gremlins:
+    version: null
+    packages: []
+    debug: []
+  world:
+    version: null
+    packages: []
+    debug: []
+  lib32-goblins:
+    version: null
+    packages: []
+    debug: []
+  lib32-gremlins:
+    version: null
+    packages: []
+    debug: []
+  lib32:
+    version: null
+    packages: []
+    debug: []
+  galaxy-goblins:
+    version: null
+    packages: []
+    debug: []
+  galaxy-gremlins:
+    version: null
+    packages: []
+    debug: []
+  galaxy:
+    version: null
+    packages: []
+    debug: []
+team: system

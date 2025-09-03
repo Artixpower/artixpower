@@ -1,0 +1,103 @@
+From e57219914236ebe5df94fc6b1512947dc4aa6db5 Mon Sep 17 00:00:00 2001
+From: artoo <artoo@artixlinux.org>
+Date: Tue, 24 Jun 2025 21:52:22 +0200
+Subject: [PATCH 1/1] no-systemd
+
+---
+ meson.build            |  7 +++++++
+ meson_options.txt      |  6 ++++++
+ misc-utils/meson.build | 27 +++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+)
+
+diff --git a/meson.build b/meson.build
+index 84fa4c805..e89dc7e82 100644
+--- a/meson.build
++++ b/meson.build
+@@ -39,6 +39,9 @@ bash_completion = dependency('bash-completion', required : get_option('build-bas
+ 
+ vendordir = get_option('vendordir')
+ 
++sysusersdir = prefixdir / get_option('sysusersdir')
++tmpfilesdir = prefixdir / get_option('tmpfilesdir')
++
+ add_project_arguments('-D_GNU_SOURCE', '-fsigned-char', language : 'c')
+ 
+ if host_machine.system() == 'darwin'
+@@ -931,11 +934,15 @@ endif
+ systemd_sysusers_dir = ''
+ if systemd.found()
+   systemd_sysusers_dir = systemd.get_variable(pkgconfig : 'sysusers_dir')
++else
++  systemd_sysusers_dir = sysusersdir
+ endif
+ 
+ systemd_tmpfiles_dir = ''
+ if systemd.found()
+   systemd_tmpfiles_dir = systemd.get_variable(pkgconfig : 'tmpfiles_dir')
++else
++  systemd_tmpfiles_dir = tmpfilesdir
+ endif
+ 
+ sysvinit = get_option('sysvinit').enabled()
+diff --git a/meson_options.txt b/meson_options.txt
+index 1ec904668..bb8f587c6 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -316,3 +316,9 @@ option('login-lastlogin', type : 'boolean',
+ option('tty-setgid', type : 'boolean',
+        value : true,
+        description : 'setgid tty group for wall and write programs')
++
++option('sysusersdir', type : 'string',
++        description : 'directory for sysusers')
++
++option('tmpfilesdir', type : 'string',
++        description : 'directory for tmpfiles')
+diff --git a/misc-utils/meson.build b/misc-utils/meson.build
+index 1cd4713ce..2daae3033 100644
+--- a/misc-utils/meson.build
++++ b/misc-utils/meson.build
+@@ -95,6 +95,15 @@ if build_liblastlog2 and systemd.found()
+   install_data(
+     lastlog2_service,
+     install_dir : systemdsystemunitdir)
++elif build_liblastlog2
++  lastlog2_tmpfiles = configure_file(
++    input : 'lastlog2-tmpfiles.conf.in',
++    output : 'lastlog2-tmpfiles.conf',
++    configuration : conf)
++  install_data(
++    lastlog2_tmpfiles,
++    install_dir : systemd_tmpfiles_dir,
++    rename : 'lastlog2.conf')
+ endif
+ 
+ if build_uuidd and systemd.found()
+@@ -123,6 +132,24 @@ if build_uuidd and systemd.found()
+     uuidd_socket,
+     install_dir : systemdsystemunitdir)
+ 
++  uuidd_sysusers = configure_file(
++    input : 'uuidd-sysusers.conf.in',
++    output : 'uuidd-sysusers.conf',
++    configuration : conf)
++  install_data(
++    uuidd_sysusers,
++    install_dir: systemd_sysusers_dir,
++    rename : 'uuidd.conf')
++elif build_uuidd
++  uuidd_tmpfiles = configure_file(
++    input : 'uuidd-tmpfiles.conf.in',
++    output : 'uuidd-tmpfiles.conf',
++    configuration : conf)
++  install_data(
++    uuidd_tmpfiles,
++    install_dir : systemd_tmpfiles_dir,
++    rename : 'uuidd.conf')
++
+   uuidd_sysusers = configure_file(
+     input : 'uuidd-sysusers.conf.in',
+     output : 'uuidd-sysusers.conf',
+-- 
+2.50.0
+

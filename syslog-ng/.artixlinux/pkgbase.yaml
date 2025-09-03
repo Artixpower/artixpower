@@ -1,0 +1,60 @@
+---
+actions:
+  addRepo: world
+  removeRepo: world-gremlins
+  triggersBuild: false
+  triggersRebuild: false
+  triggersRepoAdd: true
+  triggersRepoRemove: true
+  triggersNoCheck: false
+repos:
+  system-goblins:
+    version: null
+    packages: []
+    debug: []
+  system-gremlins:
+    version: null
+    packages: []
+    debug: []
+  system:
+    version: null
+    packages: []
+    debug: []
+  world-goblins:
+    version: null
+    packages: []
+    debug: []
+  world-gremlins:
+    version: null
+    packages: []
+    debug: []
+  world:
+    version: 4.9.0-3
+    packages:
+      - syslog-ng-4.9.0-3-x86_64.pkg.tar.zst
+    debug: []
+  lib32-goblins:
+    version: null
+    packages: []
+    debug: []
+  lib32-gremlins:
+    version: null
+    packages: []
+    debug: []
+  lib32:
+    version: null
+    packages: []
+    debug: []
+  galaxy-goblins:
+    version: null
+    packages: []
+    debug: []
+  galaxy-gremlins:
+    version: null
+    packages: []
+    debug: []
+  galaxy:
+    version: null
+    packages: []
+    debug: []
+team: world

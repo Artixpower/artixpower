@@ -1,0 +1,66 @@
+---
+version: 48.1-2
+pkgbase:
+  name: sysprof
+  pkgdesc: Kernel based performance profiler
+  pkgver: 48.1
+  pkgrel: 2
+  url: https://apps.gnome.org/Sysprof/
+  arch:
+    - x86_64
+  license:
+    - GPL-3.0-or-later
+  makedepends:
+    - git
+    - meson
+    - glib2-devel
+    - yelp-tools
+  depends:
+    - cairo
+    - gcc-libs
+    - glib2
+    - glibc
+    - graphene
+    - gtk4
+    - hicolor-icon-theme
+    - json-glib
+    - libadwaita
+    - libdex
+    - libelf
+    - libpanel
+    - libunwind
+    - pango
+    - polkit
+  source:
+    - git+https://gitlab.gnome.org/GNOME/sysprof.git#tag=48.1
+    - 0001-libsysprof-capture-Disallow-unloading-the-capture-li.patch
+  b2sums:
+    - 725decd5bfc4c5313040308b7ea3f18d4f34ae347b793d7af00644464520db1481fc6f348ad291d1a8e51f6a1d4ff994a6dc5ad2c430ccfd4eb27c24bcdac512
+    - b3a96786b28fb9c563f811610c7dafb739a4757b203b41aa3e7c1651deb62a3b3ce7c3373c242148dedb0de20a77a5909487b35fba37623971c8ab7f88958905
+pkgname:
+  - name: sysprof
+    groups:
+      - gnome-extra
+    depends:
+      - cairo
+      - gcc-libs
+      - glib2
+      - glibc
+      - graphene
+      - gtk4
+      - hicolor-icon-theme
+      - json-glib
+      - libadwaita
+      - libdex
+      - libelf
+      - libpanel
+      - libunwind
+      - pango
+      - polkit
+      - libsysprof-capture
+  - name: libsysprof-capture
+    pkgdesc: Kernel based performance profiler - capture library
+    license:
+      - BSD-2-Clause-Patent
+    depends: []
+# generated with artixpkg 0.37.3-1-any

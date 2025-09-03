@@ -1,0 +1,95 @@
+---
+version: 257.8-2
+pkgbase:
+  name: udev
+  pkgdesc: Userspace device file manager
+  pkgver: 257.8
+  pkgrel: 2
+  url: https://www.github.com/systemd/systemd
+  arch:
+    - x86_64
+  license:
+    - GPL-2.0-or-later
+    - LGPL-2.1-or-later
+  makedepends:
+    - acl
+    - gperf
+    - hwdata
+    - kbd
+    - kmod
+    - libxcrypt
+    - util-linux
+    - docbook-xsl
+    - git
+    - intltool
+    - meson
+    - python-jinja
+    - rsync
+    - bash-completion
+  depends:
+    - gcc-libs
+    - glibc
+    - libcap
+  source:
+    - git+https://github.com/systemd/systemd#tag=v257.8?signed
+    - git+https://gitea.artixlinux.org/artix/alpm-hooks.git#tag=2.2
+    - 0001-Use-Arch-Linux-device-access-groups.patch
+    - 0001-artix-standalone-install.patch
+  validpgpkeys:
+    - 63CDA1E5D3FC22B998D20DD6327F26951A015CC4
+    - A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E
+    - 9A774DB5DB996C154EBBFBFDA0099A18E29326E1
+    - 5C251B5FC54EB2F80F407AAAC54CA336CFEB557E
+  sha512sums:
+    - ff06b4a7854b67e36079fd2ba4c1fc9e772b8227606521cae641eb6633c872fa0f528e0a9c0b13b3b47741243b1735c7500261a8f7c714b5383cd89746d2181f
+    - 3b0c46459666137ff164bedb4b64c30a9713e8e236cf2675afca413ee25a1f2c0b9f0a65eab798e51fda70be84ab1bc84a3e3b137b776bf64133f2007e56ae84
+    - 78065bde708118b7d6e4ed492e096c763e4679a1c54bd98750d5d609d8cc2f1373023f308880f14fc923ae7f9fea34824917ef884c0f996b1f43d08ef022c0fb
+    - c2d1b85f3cd5948333edca36b590dad19d5045424f0145b64fe9abdf6fe7e2c3a0fca6c1901e9bfaa26b4e6fc98ff0ec8d9c825845f778fe77d681075cc47eb2
+pkgname:
+  - name: udev
+    pkgdesc: Userspace device file manager
+    depends:
+      - gcc-libs
+      - glibc
+      - libcap
+      - acl
+      - libacl.so
+      - bash
+      - hwdata
+      - kbd
+      - kmod
+      - libcap.so
+      - libudev
+      - util-linux
+      - libblkid.so
+    backup:
+      - etc/udev/iocost.conf
+      - etc/udev/udev.conf
+  - name: libudev
+    pkgdesc: udev library for enumerating and introspecting local devices
+    depends:
+      - gcc-libs
+      - glibc
+      - libcap
+      - libcap.so
+    provides:
+      - libudev.so
+  - name: esysusers
+    pkgdesc: the sysusers.d binary
+    depends:
+      - gcc-libs
+      - glibc
+      - libcap
+      - libcap.so
+      - libxcrypt
+      - libcrypt.so
+  - name: etmpfiles
+    pkgdesc: the tmpfiles.d binary
+    depends:
+      - gcc-libs
+      - glibc
+      - libcap
+      - acl
+      - libacl.so
+      - libcap.so
+# generated with artixpkg 0.37.1-1-any

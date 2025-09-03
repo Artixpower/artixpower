@@ -1,0 +1,16 @@
+ src/polkitbackend/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/polkitbackend/meson.build b/src/polkitbackend/meson.build
+index c35e6c2..ad70f1a 100644
+--- a/src/polkitbackend/meson.build
++++ b/src/polkitbackend/meson.build
+@@ -75,7 +75,7 @@ executable(
+   program,
+   program + '.c',
+   include_directories: top_inc,
+-  dependencies: libpolkit_gobject_dep,
++  dependencies: deps,
+   c_args: c_flags,
+   link_with: libpolkit_backend,
+   install: true,

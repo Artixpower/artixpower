@@ -1,0 +1,19 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=iwd-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC iwd init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-galaxy')
+depends=('openrc' 'iwd')
+provides=('init-iwd')
+conflicts=('init-iwd')
+source=("iwd.initd")
+sha256sums=('e438d783d8cf99df1bfde44424c9d6a41448033b62486f033c368e9359c25619')
+
+package() {
+	install -Dm755 "$srcdir/iwd.initd" "$pkgdir/etc/init.d/iwd"
+}

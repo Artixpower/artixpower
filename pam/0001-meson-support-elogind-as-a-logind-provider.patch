@@ -1,0 +1,125 @@
+From 54e7a915b01a67c62c93994b0d8771ab1c6e1510 Mon Sep 17 00:00:00 2001
+From: Dudemanguy <random342@airmail.cc>
+Date: Wed, 20 Nov 2024 13:16:44 -0600
+Subject: [PATCH] meson: support elogind as a logind provider
+
+The systemd functionality used here is also supported by elogind. Search
+for libelogind as well and use the appropriate headers.
+---
+ meson.build                           | 8 ++++++--
+ modules/module-meson.build            | 8 ++++----
+ modules/pam_issue/pam_issue.c         | 4 +++-
+ modules/pam_limits/pam_limits.c       | 4 +++-
+ modules/pam_timestamp/pam_timestamp.c | 4 +++-
+ 5 files changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 664bd126..c171f9d4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -319,8 +319,12 @@ else
+ endif
+ 
+ 
+-libsystemd = dependency('libsystemd', version: '>= 254', required: get_option('logind'))
+-cdata.set('USE_LOGIND', libsystemd.found() ? 1 : false)
++libsystemd = dependency('libsystemd', version: '>= 254', required: false)
++libelogind = dependency('libelogind', version: '>= 254', required: false)
++logind = get_option('logind').require(libsystemd.found() or libelogind.found())
++cdata.set('USE_LIBSYSTEMD', libsystemd.found() ? 1 : false)
++cdata.set('USE_LIBELOGIND', libelogind.found() ? 1 : false)
++cdata.set('USE_LOGIND', logind.allowed() ? 1 : false)
+ 
+ systemdunitdir = get_option('systemdunitdir')
+ if systemdunitdir == ''
+diff --git a/modules/module-meson.build b/modules/module-meson.build
+index acb70875..cb98d7d2 100644
+--- a/modules/module-meson.build
++++ b/modules/module-meson.build
+@@ -16,7 +16,7 @@ if module == 'pam_faillock'
+   pam_module_deps += [libaudit]
+ endif
+ if module == 'pam_issue'
+-  pam_module_deps += [libsystemd]
++  pam_module_deps += [libsystemd, libelogind]
+ endif
+ if module == 'pam_keyinit'
+   if not enable_pam_keyinit
+@@ -32,7 +32,7 @@ endif
+ if module == 'pam_limits'
+   limits_conf_dir = sconfigdir / 'limits.d'
+   pam_module_c_args += ['-DLIMITS_FILE_DIR="@0@"'.format(limits_conf_dir)]
+-  pam_module_deps += [libsystemd]
++  pam_module_deps += [libsystemd, libelogind]
+ endif
+ if module == 'pam_loginuid'
+   pam_module_deps += [libaudit]
+@@ -90,7 +90,7 @@ if module == 'pam_timestamp'
+   else
+     pam_module_src += ['hmacsha1.c', 'sha1.c']
+   endif
+-  pam_module_deps += [libcrypto, libsystemd]
++  pam_module_deps += [libcrypto, libsystemd, libelogind]
+ endif
+ if module == 'pam_tty_audit'
+   if cdata.get('HAVE_STRUCT_AUDIT_TTY_STATUS', 0) == 0
+@@ -408,7 +408,7 @@ if module == 'pam_timestamp'
+     'pam_timestamp_check',
+     sources: ['pam_timestamp_check.c'],
+     link_args: exe_link_args,
+-    dependencies: [libpam_internal_dep, libpam_dep, libsystemd],
++    dependencies: [libpam_internal_dep, libpam_dep, libsystemd, libelogind],
+     install: true,
+     install_dir: sbindir,
+   )
+diff --git a/modules/pam_issue/pam_issue.c b/modules/pam_issue/pam_issue.c
+index e2c555c4..52b11058 100644
+--- a/modules/pam_issue/pam_issue.c
++++ b/modules/pam_issue/pam_issue.c
+@@ -28,8 +28,10 @@
+ #include <time.h>
+ #include <syslog.h>
+ 
+-#ifdef USE_LOGIND
++#ifdef USE_LIBSYSTEMD
+ #include <systemd/sd-login.h>
++#elif defined(USE_LIBELOGIND)
++#include <elogind/sd-login.h>
+ #else
+ #include <utmp.h>
+ #endif
+diff --git a/modules/pam_limits/pam_limits.c b/modules/pam_limits/pam_limits.c
+index 1e4dfa3d..9e76d1e8 100644
+--- a/modules/pam_limits/pam_limits.c
++++ b/modules/pam_limits/pam_limits.c
+@@ -36,8 +36,10 @@
+ #include <sys/resource.h>
+ #include <limits.h>
+ #include <glob.h>
+-#ifdef USE_LOGIND
++#ifdef USE_LIBSYSTEMD
+ #include <systemd/sd-login.h>
++#elif defined(USE_LIBELOGIND)
++#include <elogind/sd-login.h>
+ #else
+ #include <utmp.h>
+ #endif
+diff --git a/modules/pam_timestamp/pam_timestamp.c b/modules/pam_timestamp/pam_timestamp.c
+index 51fcd592..c207e5d1 100644
+--- a/modules/pam_timestamp/pam_timestamp.c
++++ b/modules/pam_timestamp/pam_timestamp.c
+@@ -61,8 +61,10 @@
+ #include "hmacsha1.h"
+ #endif /* WITH_OPENSSL */
+ 
+-#ifdef USE_LOGIND
++#ifdef USE_LIBSYSTEMD
+ #include <systemd/sd-login.h>
++#elif defined(USE_LIBELOGIND)
++#include <elogind/sd-login.h>
+ #else
+ #include <utmp.h>
+ #endif
+-- 
+2.47.0
+

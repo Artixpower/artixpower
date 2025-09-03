@@ -1,0 +1,27 @@
+ meson.build       | 2 +-
+ meson_options.txt | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index cecb78ed..7ea3e0aa 100644
+--- a/meson.build
++++ b/meson.build
+@@ -85,7 +85,7 @@ bindir = get_option('prefix') / get_option('bindir')
+ libdir = get_option('prefix') / get_option('libdir')
+ pluginsdir = libdir / 'rc/plugins'
+ libexecdir = get_option('prefix') / get_option('libexecdir')
+-rc_libexecdir = libexecdir / 'rc'
++rc_libexecdir = libexecdir / get_option('librcdir')
+ rc_bindir = rc_libexecdir / 'bin'
+ rc_sbindir = rc_libexecdir / 'sbin'
+ rc_shdir = rc_libexecdir / 'sh'
+diff --git a/meson_options.txt b/meson_options.txt
+index 8cefbbbc..c84006d2 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -31,3 +31,5 @@ option('zsh-completions', type : 'boolean',
+ option('agetty', type: 'array',
+   value: ['tty1', 'tty2', 'tty3', 'tty4', 'tty5', 'tty6'],
+   description : 'agetty symlinks to install when sysvinit is also specified')
++option('librcdir', type : 'string', value : 'rc',
++  description : 'default location of rc libexec dir')

@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=elogind-openrc
+pkgver=20210704
+pkgrel=1
+pkgdesc="OpenRC elogind init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+depends=('elogind' 'dbus-openrc')
+provides=('init-logind' 'init-elogind')
+conflicts=('init-logind' 'init-elogind')
+source=(#"elogind.confd"
+        "elogind.sv.initd")
+sha256sums=('b4097e85f81f37d8529eb57563813e94b7c7afb9931d892907d805093187761b')
+
+package() {
+#     install -Dm755 "${srcdir}"/elogind.confd "${pkgdir}"/etc/conf.d/elogind
+    install -Dm755 "${srcdir}"/elogind.sv.initd "${pkgdir}"/etc/init.d/elogind
+
+    install -d "${pkgdir}"/etc/runlevels/boot
+    ln -sf /etc/init.d/elogind "${pkgdir}"/etc/runlevels/boot/elogind
+}

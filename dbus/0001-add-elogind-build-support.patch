@@ -1,0 +1,107 @@
+From 70114a65b633ff6f19e31cc2e99e0b96b4b0a347 Mon Sep 17 00:00:00 2001
+From: artoo <artoo@artixlinux.org>
+Date: Thu, 6 Mar 2025 22:49:06 +0100
+Subject: [PATCH 1/1] add elogind build support
+
+---
+ bus/meson.build         | 5 +++++
+ dbus/dbus-userdb-util.c | 6 +++++-
+ dbus/meson.build        | 1 +
+ meson.build             | 6 ++++++
+ meson_options.txt       | 7 +++++++
+ 5 files changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/bus/meson.build b/bus/meson.build
+index 176894d6..673a817b 100644
+--- a/bus/meson.build
++++ b/bus/meson.build
+@@ -63,6 +63,11 @@ if use_launchd
+     )
+ endif
+ 
++if use_elogind
++    subdir('sysusers.d')
++    subdir('tmpfiles.d')
++endif
++
+ if use_systemd
+     configure_file(
+         input: 'dbus.service.in',
+diff --git a/dbus/dbus-userdb-util.c b/dbus/dbus-userdb-util.c
+index 73624495..a7b61130 100644
+--- a/dbus/dbus-userdb-util.c
++++ b/dbus/dbus-userdb-util.c
+@@ -42,6 +42,10 @@
+ #include <systemd/sd-login.h>
+ #endif
+ 
++#ifdef HAVE_ELOGIND
++#include <elogind/sd-login.h>
++#endif
++
+ /**
+  * @addtogroup DBusInternalsUtils
+  * @{
+@@ -67,7 +71,7 @@ dbus_bool_t
+ _dbus_is_console_user (dbus_uid_t uid,
+ 		       DBusError *error)
+ {
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_SYSTEMD) || defined(HAVE_ELOGIND)
+   /* check if we have logind */
+   if (access ("/run/systemd/seats/", F_OK) >= 0)
+     {
+diff --git a/dbus/meson.build b/dbus/meson.build
+index d2acd059..0e543069 100644
+--- a/dbus/meson.build
++++ b/dbus/meson.build
+@@ -24,6 +24,7 @@ dbus_dependencies = [
+     adt_libs,
+     network_libs,
+     systemd,
++    elogind,
+     valgrind.partial_dependency(compile_args: true),
+ ]
+ 
+diff --git a/meson.build b/meson.build
+index 872672dd..fe0b9a64 100644
+--- a/meson.build
++++ b/meson.build
+@@ -484,6 +484,11 @@ systemd = dependency('libsystemd', version: '>=209', required: get_option('syste
+ use_systemd = systemd.found()
+ config.set('HAVE_SYSTEMD', use_systemd)
+ 
++elogind_opt = get_option('elogind').require(not use_systemd)
++elogind = dependency('libelogind', version: '>=209', required: elogind_opt)
++use_elogind = elogind.found()
++config.set('HAVE_ELOGIND', use_elogind)
++
+ if use_systemd
+     # If not found in $PATH, we might still have systemd and systemctl at runtime
+     # (perhaps dbus is being compiled in a minimal chroot with no systemd).
+@@ -1359,6 +1364,7 @@ summary_dict += {
+     'Building inotify support': use_inotify,
+     'Building kqueue support':  use_kqueue,
+     'Building systemd support': use_systemd,
++    'Building elogind support': use_elogind,
+     'Traditional activation':   use_traditional_activation,
+     'Building X11 code':        config.get('DBUS_BUILD_X11'),
+     'Building Doxygen docs':    doxygen.found(),
+diff --git a/meson_options.txt b/meson_options.txt
+index ee06cb89..2db0df5e 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -305,3 +305,10 @@ option(
+   value: false,
+   description: 'use OutputDebugString() to log messages to Windows debug port'
+ )
++
++option(
++  'elogind',
++  type: 'feature',
++  value: 'disabled',
++  description: 'Use elogind for detecting user sessions'
++)
+-- 
+2.48.1
+

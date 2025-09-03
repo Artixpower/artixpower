@@ -1,0 +1,23 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=git-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC git-daemon init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-git')
+depends=('git' 'openrc')
+conflicts=('init-git')
+backup=('etc/conf.d/git-daemon')
+source=("git-daemon.confd"
+        "git-daemon.initd")
+sha256sums=('4703ba2372c661fb674a29fea7f64983f8b1b3136d971663509249655bca6e21'
+            'd398660358e8e76e52decfb2d245437088a90d29da0beb73de16df8950377a35')
+
+package() {
+    install -Dm755 "${srcdir}"/git-daemon.initd "${pkgdir}"/etc/init.d/git-daemon
+    install -Dm644 "${srcdir}"/git-daemon.confd "${pkgdir}"/etc/conf.d/git-daemon
+}

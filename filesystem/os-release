@@ -1,0 +1,11 @@
+NAME="Artix Power"
+PRETTY_NAME="Artix Power"
+ID=artix
+BUILD_ID=rolling
+ANSI_COLOR="38;2;23;147;209"
+HOME_URL="https://artixpower.thecheese.io/"
+DOCUMENTATION_URL="https://artixpower.thecheese.io/"
+SUPPORT_URL="https://artixpower.thecheese.io/"
+BUG_REPORT_URL="https://artixpower.thecheese.io/"
+PRIVACY_POLICY_URL="https://artixpower.thecheese.io"
+LOGO=artixlinux-logo

@@ -1,0 +1,128 @@
+# Maintainer: Fabian Bornschein <fabiscafe@archlinux.org>
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Geoffroy Carrier <geoffroy.carrier@aur.archlinux.org>
+# Contributor: Eric Belanger <belanger@astro.umontreal.ca>
+# Contributor: aeolist <aeolist@hotmail.com>
+# Contributor: Gabriel Rauter <rauter.gabriel@gmail.com>
+
+pkgbase=sysprof
+pkgname=(
+  sysprof
+  libsysprof-capture
+)
+pkgver=48.1
+pkgrel=2
+pkgdesc="Kernel based performance profiler"
+url="https://apps.gnome.org/Sysprof/"
+license=(GPL-3.0-or-later)
+arch=("powerpc")
+depends=(
+  cairo
+  gcc-libs
+  glib2
+  glibc
+  graphene
+  gtk4
+  hicolor-icon-theme
+  json-glib
+  libadwaita
+  libdex
+  libelf
+  libpanel
+  libunwind
+  pango
+  polkit
+)
+makedepends=(
+  git
+  meson
+  glib2-devel
+  yelp-tools
+)
+source=(
+  "git+https://gitlab.gnome.org/GNOME/sysprof.git#tag=${pkgver/[a-z]/.&}"
+  0001-libsysprof-capture-Disallow-unloading-the-capture-li.patch
+)
+b2sums=('725decd5bfc4c5313040308b7ea3f18d4f34ae347b793d7af00644464520db1481fc6f348ad291d1a8e51f6a1d4ff994a6dc5ad2c430ccfd4eb27c24bcdac512'
+        'b3a96786b28fb9c563f811610c7dafb739a4757b203b41aa3e7c1651deb62a3b3ce7c3373c242148dedb0de20a77a5909487b35fba37623971c8ab7f88958905')
+
+prepare() {
+  cd sysprof
+
+  # Always present existing window on activation
+  # https://gitlab.gnome.org/GNOME/sysprof/-/merge_requests/130
+  git cherry-pick -n 7db526fbd9739f714f2d563f1fb65ec7695bb1d2
+
+  # Implement new-window action
+  # https://gitlab.gnome.org/GNOME/sysprof/-/merge_requests/133
+  git cherry-pick -n e925428d333fe4229e939b6c2923c515278169fe
+
+  # Present the active window on activation
+  # https://gitlab.gnome.org/GNOME/sysprof/-/merge_requests/132
+  git cherry-pick -n b5459370d778054360bb8faf9a5599d058dd42de
+
+  # Add "greeter" command-line option
+  # https://gitlab.gnome.org/GNOME/sysprof/-/merge_requests/135
+  git cherry-pick -n 660953d3d77825c2e68881a9bb409e267f4c13f7
+
+  # Add D-Bus service file
+  # https://gitlab.gnome.org/GNOME/sysprof/-/merge_requests/138
+  git cherry-pick -n 300bf1a13b1ab13330152307454cdbcb52c7178d
+
+  # Fix mesa crashes
+  # https://gitlab.freedesktop.org/mesa/mesa/-/issues/13571
+  git apply -3 ../0001-libsysprof-capture-Disallow-unloading-the-capture-li.patch
+}
+
+build() {
+  # Ensure static library is non-LTO compatible
+  CFLAGS+=" -ffat-lto-objects"
+
+  artix-meson sysprof build -Dsystemdunitdir=/usr/lib/systemd
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+_pick() {
+  local p="$1" f d; shift
+  for f; do
+    d="$srcdir/$p/${f#$pkgdir/}"
+    mkdir -p "$(dirname "$d")"
+    mv "$f" "$d"
+    rmdir -p --ignore-fail-on-non-empty "$(dirname "$f")"
+  done
+}
+
+package_sysprof() {
+  depends+=(libsysprof-capture)
+  groups=(gnome-extra)
+
+  meson install -C build --destdir "$pkgdir"
+
+  cd "$pkgdir"
+
+  _pick capture usr/lib/libsysprof-capture-*
+  _pick capture usr/lib/pkgconfig/sysprof-capture-*
+  _pick capture usr/include/sysprof-*/sysprof-{address,capture,clock,collector,macros}.h
+  _pick capture usr/include/sysprof-*/sysprof-{platform,version,version-macros}.h
+  _pick capture usr/include/sysprof-*/sysprof-capture-{condition,cursor,reader,types,writer}.h
+
+  rm -r $pkgdir/usr/lib/systemd
+}
+
+package_libsysprof-capture() {
+  pkgdesc+=" - capture library"
+  depends=()
+  license=(BSD-2-Clause-Patent)
+
+  mv capture/* "$pkgdir"
+
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
+    sysprof/src/libsysprof-capture/COPYING
+}
+
+# vim:set sw=2 sts=-1 et:

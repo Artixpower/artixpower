@@ -1,0 +1,22 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=dnsmasq-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC dnsmasq init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-dnsmasq')
+depends=('openrc' 'dnsmasq')
+conflicts=('init-dnsmasq')
+backup=('etc/conf.d/dnsmasq')
+source=("dnsmasq."{initd,confd})
+sha256sums=('bf50cc01e8268d267f3327333439b96ee529b88a8c209962504829247857142e'
+            '400d3cd953ff5f93c04713be8e75fd984b65ee569a55b0dfaeb01734100099d6')
+
+package() {
+    install -Dm755 "${srcdir}"/dnsmasq.initd "${pkgdir}"/etc/init.d/dnsmasq
+    install -Dm644 "${srcdir}"/dnsmasq.confd "${pkgdir}"/etc/conf.d/dnsmasq
+}

@@ -1,0 +1,98 @@
+---
+version: 0.62.6-1
+pkgbase:
+  name: openrc
+  pkgdesc: OpenRC is a dependency-based init system that works with the system-provided init program
+  pkgver: 0.62.6
+  pkgrel: 1
+  url: https://github.com/OpenRC/openrc
+  arch:
+    - x86_64
+  license:
+    - BSD-2-Clause
+  makedepends:
+    - git
+    - meson
+  source:
+    - git+https://github.com/OpenRC/openrc.git#tag=0.62.6
+    - openrc.logrotate
+    - sysctl.conf
+    - openrc-user.pam
+    - openrc-rc-conf-artix.patch
+    - openrc-artix-meson.patch
+    - git+https://gitea.artixlinux.org/artix/openrc-extra.git#tag=1.3
+    - git+https://gitea.artixlinux.org/artix/alpm-hooks.git#tag=2.2
+    - openrc-agetty-meson-conf-d.patch::https://github.com/OpenRC/openrc/pull/850/commits/e3961a81809ed8d0e594402b012ee685e4ad970f.patch
+  sha256sums:
+    - 2a2fb96fcd2487ae4a9b99c7256fec93f6a68f8b815a62af87df276b07dd71f8
+    - 0b44210db9770588bd491cd6c0ac9412d99124c6be4c9d3f7d31ec8746072f5c
+    - 874e50bd217fef3a2e3d0a18eb316b9b3ddb109b93f3cbf45407170c5bec1d6d
+    - 5b6a7ceb46f057581dcdce76794c045b711ff2a8f063ced0dba682697da9ef06
+    - 1f6f7a11e6937a1c9d23959e4bf4a6b04937f955a21e4e0e5be9e9e480835bcd
+    - 0cb9b79b2e044c3641b20ec701a396dd5575bb5b1c48586ab57de9c2b7d24308
+    - e83f678c3e3d03067d0e5602bad82382cf74c8dc4fd7a1c18f3a3ceb3a21f0be
+    - f29110a8222b2d67a31918869ae8261bdf35d3404cd1effbb3f9fcfa97cdbb25
+    - 0a2aead8c5257cca191e8a3a57c080d4deb4ba5fae89df4709843584eef53534
+pkgname:
+  - name: openrc
+    pkgdesc: Universal init system
+    depends:
+      - audit
+      - bash
+      - glibc
+      - inetutils
+      - libcap
+      - libcap.so
+      - netifrc
+      - pam
+      - libpam.so
+      - psmisc
+      - perl
+      - libeinfo
+      - libeinfo.so
+    optdepends:
+      - 'networkmanager-openrc: networkmanager init script'
+      - 'elogind-openrc: elogind init script'
+    provides:
+      - init-rc
+      - svc-manager
+      - librc.so
+    conflicts:
+      - init-rc
+      - svc-manager
+    replaces:
+      - openrc-deptree2dot
+      - openrc-bash-completions
+      - openrc-zsh-completions
+    backup:
+      - etc/rc.conf
+      - etc/conf.d/consolefont
+      - etc/conf.d/keymaps
+      - etc/conf.d/hostname
+      - etc/conf.d/modules
+      - etc/conf.d/hwclock
+      - etc/conf.d/etmpfiles-dev
+      - etc/conf.d/etmpfiles-setup
+      - etc/conf.d/udev
+      - etc/conf.d/udev-trigger
+      - etc/conf.d/udev-settle
+      - etc/conf.d/localmount
+      - etc/conf.d/netmount
+      - etc/conf.d/bootmisc
+      - etc/conf.d/dmesg
+      - etc/conf.d/devfs
+      - etc/conf.d/killprocs
+      - etc/conf.d/swap
+      - etc/conf.d/agetty.tty1
+      - etc/conf.d/agetty.tty2
+      - etc/conf.d/agetty.tty3
+      - etc/conf.d/agetty.tty4
+      - etc/conf.d/agetty.tty5
+      - etc/conf.d/agetty.tty6
+  - name: libeinfo
+    pkgdesc: Pretty console informational display
+    depends:
+      - glibc
+    provides:
+      - libeinfo.so
+# generated with artixpkg 0.36.4-1-any

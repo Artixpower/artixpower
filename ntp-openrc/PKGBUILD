@@ -1,0 +1,32 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=ntp-openrc
+pkgver=20210505
+pkgrel=2
+pkgdesc="OpenRC ntp init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-world')
+provides=('init-timed' 'init-ntp')
+depends=('openrc' 'ntp')
+conflicts=('init-timed' 'init-ntp')
+backup=('etc/conf.d/ntpd'
+        'etc/conf.d/ntp-client'
+        'etc/init.d/sntp')
+source=("ntpd".{initd,confd}
+        "ntp-client".{initd,confd}
+        "sntp".{initd,confd})
+sha256sums=('dac2d8b7cb54551294891d7e94896e02070f5fe281b85762f063d861b21df5a8'
+            '40803821f498267f6567436eedc18201b5ae4b5390d6872fb15a94200c2ac06f'
+            'd3f166bf35695c9f875b459632b825e32395747ff67124f675d6a862ad363d16'
+            'c7dc517cdb5ee10e2a07ccea15ec47ba0b7aff8ac1469204c8d7faf71bcae2c5'
+            '30dae728b7baadbae4060f65bcf5465655b47dd05526c815e79e1c76d810c594'
+            '97282007801cb9c0e3b431e2930dec3bb8ce8869f63f7e02d903846e96734684')
+
+package() {
+    for _i in ntp-client ntpd sntp ; do
+        install -Dm755 "$srcdir/$_i.initd" "$pkgdir/etc/init.d/$_i"
+        install -Dm644 "$srcdir/$_i.confd" "$pkgdir/etc/conf.d/$_i"
+    done
+}

@@ -1,0 +1,83 @@
+# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+# Contributor: Jonas Witschel <diabonas@archlinux.org>
+# Contributor: Bruno Pagani <archange@archlinux.org>
+pkgname=tpm2-tss
+pkgver=4.1.3
+pkgrel=1
+pkgdesc='Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)'
+arch=("powerpc")
+url='https://github.com/tpm2-software/tpm2-tss'
+license=('BSD-2-Clause')
+depends=(
+  curl
+  json-c
+  openssl
+  libjson-c.so
+)
+makedepends=(
+  git 
+  autoconf-archive
+  cmocka
+  doxygen
+  libtpms
+)
+checkdepends=(
+  iproute2
+  swtpm
+  uthash
+)
+provides=(
+  libtss2-esys.so
+  libtss2-fapi.so 
+  libtss2-mu.so
+  libtss2-rc.so
+  libtss2-sys.so 
+  libtss2-tctildr.so
+)
+backup=(
+  etc/tpm2-tss/fapi-config.json
+  etc/tpm2-tss/fapi-profiles/P_ECCP256SHA256.json
+  etc/tpm2-tss/fapi-profiles/P_RSA2048SHA256.json
+)
+options=(
+  !emptydirs
+  !lto
+)
+source=(
+  git+https://github.com/tpm2-software/tpm2-tss?signed#tag=${pkgver}
+)
+b2sums=('2337287c0c7825b27a4639ed055c9a44eb08432110e032e244cb21f77f087b8bea1740f9e313fc5f0b54f03b1cc3c26287f874fef15710d7dc44dbf1ac1b2cfb')
+validpgpkeys=(
+  'D533275B0123D0A679F51FF48F4F9A45D7FFEE74' # Andreas Fuchs <andreas.fuchs@infineon.com
+  'D6B4D8BAC7E0CC97DCD4AC7272E88B53F7A95D84' # Andreas Fuchs <andreas.fuchs@sit.fraunhofer.de>
+  '5B482B8E3E19DA7C978E1D016DE2E9078E1F50C1' # William Roberts (Bill Roberts) <william.c.roberts@intel.com>
+)
+
+prepare() {
+  cd "${pkgname}"
+  ./bootstrap 
+}
+
+build() {
+  cd "${pkgname}"
+  # disable options taken from gentoo ebuild!
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+              --with-runstatedir=/run --with-sysusersdir=/usr/lib/sysusers.d \
+              --with-tmpfilesdir=/usr/lib/tmpfiles.d --with-udevrulesprefix=60- \
+              --disable-tcti-libtpms --disable-tcti-spi-ltt2go --disable-tcti-spi-ftdi \
+              --disable-tcti-i2c-ftdi --disable-defaultflags --disable-weakcrypto \
+              --enable-unit $( ((CHECKFUNC)) && echo --enable-integration)
+  make
+}
+
+check() {
+  cd "${pkgname}"
+  # lto breaks tests!
+  make check
+}
+
+package() {
+  cd "${pkgname}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}

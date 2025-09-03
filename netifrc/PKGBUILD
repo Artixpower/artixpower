@@ -1,0 +1,61 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+# Contributor: williamh <williamh@gentoo.org>
+
+_fname=gentoo-functions
+_furl="https://github.com/gentoo/${_fname}/archive"
+_fver=1.7.3
+
+pkgname=netifrc
+pkgver=0.7.12
+pkgrel=2
+pkgdesc="Gentoo Network Interface Management Scripts"
+arch=("powerpc")
+url="https://github.com/gentoo/netifrc"
+license=('BSD2')
+depends=('glibc' 'udev' 'sh')
+makedepends=('meson')
+backup=('etc/conf.d/net')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz"
+        "${_fname}-${_fver}.tar.gz::${_furl}/${_fname}-${_fver}.tar.gz")
+sha256sums=('54d6e92227fb736bf037ebfb22ba515ccc8953df685d0db5ba8e7c18ee0e2dac'
+            'a77a9f3dd3993e6c286a84422fafb37b3418c39d6bfd3e7d055592dd37fffcd6')
+
+_args=(
+    SYSCONFDIR=/etc
+    PREFIX=/usr
+    SBINDIR=/usr/bin
+    LIBEXECDIR=/usr/lib/"${pkgname}"
+)
+
+prepare() {
+    # todo: use a patch
+    sed -e "s|genfun_prefix=|genfun_prefix=/usr|" \
+        -e "s|lib/gentoo|lib/artix|g" -i "${_fname}-${_fname}-${_fver}"/functions.sh
+    sed -e "s|lib/gentoo|lib/artix|g" -i "${_fname}-${_fname}-${_fver}"/meson.build
+    sed -e "s|/usr/libexec/|/usr/lib/|g" -i "${pkgname}-${pkgver}"/net/iwd.sh
+}
+
+build(){
+    # make netifrc
+    make -C "${pkgname}-${pkgver}" "${_args[@]}"
+
+    artix-meson "${_fname}-${_fname}-${_fver}" build
+    meson compile -C build
+}
+
+package() {
+
+    make -C "${pkgname}-${pkgver}" DESTDIR="${pkgdir}" "${_args[@]}" install
+
+    install -Dm 644 "${pkgname}-${pkgver}"/doc/net.example "${pkgdir}"/etc/conf.d/net
+
+    install -d "${pkgdir}"/etc/runlevels/boot
+    ln -svf /etc/init.d/net.lo "${pkgdir}"/etc/runlevels/boot/net.lo
+
+    install -Dm644 "${pkgname}-${pkgver}"/LICENSE "${pkgdir}"/usr/share/licenses/"${pkgname}"/LICENSE
+
+    meson install -C build --destdir "${pkgdir}"
+
+    # rm systemd & portage wrapper
+    rm -fv "${pkgdir}"/usr/lib/netifrc/sh/systemd-wrapper.sh
+}

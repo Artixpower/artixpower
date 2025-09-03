@@ -1,0 +1,29 @@
+# Maintainer: artoo <artoo@artixlinux.org>
+
+pkgname=wpa_supplicant-openrc
+pkgver=20210505
+pkgrel=1
+pkgdesc="OpenRC wpa_supplicant init script"
+arch=("any")
+url="https://gitea.artixlinux.org/artixlinux/packages-openrc"
+license=('GPL2')
+groups=('openrc-system')
+provides=('init-wpa_supplicant')
+depends=('openrc' 'wpa_supplicant')
+conflicts=('init-wpa_supplicant')
+backup=('etc/conf.d/wpa_supplicant')
+source=("wpa_supplicant.confd"
+        "wpa_supplicant.initd"
+        "wpa_cli.sh")
+sha256sums=('27833f60a091464612e74e6171cc98c3e3f994e2fde0ccc4535dd0d84ed041fa'
+            '7789b54cabb7317d9368531f4832ae7b256e26ce0e5ac7ab8d0a251ade18342a'
+            'd8c15d0136a928e606d7ecc5243a30a33348c28af2bba5f7082236e5a1ed3094')
+
+package() {
+    install -Dm755 "${srcdir}"/wpa_supplicant.initd "${pkgdir}"/etc/init.d/wpa_supplicant
+    install -Dm644 "${srcdir}"/wpa_supplicant.confd "${pkgdir}"/etc/conf.d/wpa_supplicant
+
+    install -Dm755 "${srcdir}"/wpa_cli.sh "${pkgdir}"/etc/wpa_supplicant/wpa_cli.sh
+}
+
+
