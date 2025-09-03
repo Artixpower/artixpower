@@ -1,50 +1,64 @@
-# Maintainer: Artoo <artoo@artixlinux.org>
-# Contributor: Levente Polyak <anthraxx[at]archlinux[dot]org>
-# Contributor: Eli Schwartz <eschwartz@archlinux.org>
-
-_url=https://gitea.artixlinux.org/artix/alpm-hooks
-
-_commit=c17eb2ad37113f53f5897247f2d3e66b42948923
-
 pkgname=base
-pkgver=3
-pkgrel=5
-pkgdesc='Minimal package set to define a basic Artix Linux installation'
-url='https://www.artixlinux.org'
-arch=("powerpc")
+pkgver=1
+pkgrel=1
+arch=('any')
+pkgdesc="ArtixPower base meta package (OpenRC-first)"
 license=('GPL')
+provides=('base')
+groups=('base')
+
 depends=(
-  # very very base
-  'filesystem' 'gcc-libs' 'glibc' 'bash'
+  # very base
+  'filesystem' 'gcc-libs' 'glibc' 'bash' 'iana-etc' 'tzdata' 'linux-api-headers' 'libxcrypt' 'libnsl'
 
-  # POSIX tools
-  'coreutils' 'file' 'findutils' 'gawk' 'grep' 'procps-ng' 'sed' 'tar'
+  # console UX & TTY libs
+  'ncurses' 'readline'
 
-  # standard linux toolset
-  'gettext' 'pciutils' 'psmisc' 'shadow' 'util-linux' 'bzip2' 'gzip' 'xz'
+  # POSIX / core tools
+  'coreutils' 'sed' 'grep' 'tar' 'xz' 'zstd' 'libarchive' 'util-linux' 'shadow' 'procps-ng' 'which' 'psmisc' 'inetutils' 'less'
 
-  # distro defined requirements
-  'licenses' 'pacman' 'artix-keyring' 'init-logind' 'esysusers' 'etmpfiles'
+  # editors
+  'vim' 'nano'
 
-  # networking, ping, etc
-  'iputils' 'iproute2'
+  # toolchain & pkg management
+  'make' 'pkgconf' 'pacman'
+
+  # compression & low-level libs
+  'zlib' 'lz4' 'brotli' 'libelf'
+
+  # crypto, TLS, trust store & GnuPG stack
+  'p11-kit' 'libtasn1' 'nettle' 'gnutls' 'openssl' 'libunistring' 'libidn2' 'libpsl' 'libnghttp2' 'libnghttp3' 'libssh2'
+  'ca-certificates' 'ca-certificates-utils' 'ca-certificates-mozilla'
+  'libgpg-error' 'libgcrypt' 'libksba' 'npth' 'pinentry' 'gnupg' 'gpgme'
+
+  # text, XML, regex, DBs
+  'expat' 'icu' 'libxml2' 'sqlite' 'pcre2' 'gdbm' 'db5.3' 'jansson'
+
+  # networking & transfer
+  'curl' 'iproute2' 'iputils' 'ethtool' 'rsync'
+
+  # accounts / auth / RPC
+  'acl' 'libldap' 'krb5' 'libsasl' 'lmdb' 'libtirpc' 'keyutils' 'libutempter'
+
+  # hardware / storage / udev stack
+  'udev' 'libudev' 'libgudev' 'e2fsprogs' 'dosfstools' 'kbd' 'kmod' 'pciutils' 'usbutils'
+
+  # logging & admin
+  'logrotate' 'sudo'
+
+  # docs / man
+  'man'
+
+  # distro keys & mirrors
+  'artixpower-keyring' 'archpower-keyring' 'artixpower-mirrorlist'
+
+  # system users & tmpfiles
+  'esysusers' 'etmpfiles'
+
+  # profiling (as listed)
+  'libsysprof-capture'
 )
-makedepends=('git')
-optdepends=('linux: bare metal support')
-source=(
-    "git+$_url.git#commit=$_commit"
-)
-sha256sums=('SKIP')
 
-package() {
-    # pacman hooks
-    make -C alpm-hooks DESTDIR="${pkgdir}" install_base
+conflitcs=('systemd' 'systemd-libs')
 
-    # artix-service wrapper
-    make -C alpm-hooks DESTDIR="${pkgdir}" install_wrapper
-
-    # provide default symlink for PM file tracking
-    ln -svf openrc-init "${pkgdir}"/usr/bin/init
-}
-
-# vim: ts=2 sw=2 et:
+package() { :; }
