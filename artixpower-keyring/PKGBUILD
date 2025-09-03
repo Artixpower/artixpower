@@ -1,0 +1,20 @@
+pkgname=artixpower-keyring
+pkgver=1
+pkgrel=3
+pkgdesc="ArtixPower repository keyring"
+arch=('any')
+url="https://artixpower.thecheese.io"
+license=('GPL')
+source=('artixpower.gpg'
+        'artixpower-trusted'
+        'artixpower-revoked')
+sha256sums=('SKIP' 'SKIP' 'SKIP')
+install=$pkgname.install
+
+package() {
+  install -d "$pkgdir/usr/share/pacman/keyrings"
+  install -m0644 "$srcdir/artixpower.gpg"       "$pkgdir/usr/share/pacman/keyrings/"
+  install -m0644 "$srcdir/artixpower-trusted"   "$pkgdir/usr/share/pacman/keyrings/"
+  install -m0644 "$srcdir/artixpower-revoked"   "$pkgdir/usr/share/pacman/keyrings/"
+}
+

@@ -1,0 +1,8 @@
+post_install() {
+  pacman-key --populate artixpower || true
+}
+post_upgrade() {
+  pacman-key --populate artixpower || true
+}
+post_remove() { :; }
+

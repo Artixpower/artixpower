@@ -1,0 +1,16 @@
+pkgname=artixpower-mirrorlist
+pkgver=1
+pkgrel=1
+pkgdesc="ArtixPower pacman mirror list"
+arch=('any')
+url="https://artixpower.thecheese.io"
+license=('GPL')
+source=('artixpower-mirrorlist')
+sha256sums=('SKIP')
+backup=('etc/pacman.d/artixpower-mirrorlist')
+
+package() {
+  install -d "$pkgdir/etc/pacman.d"
+  install -m0644 "$srcdir/artixpower-mirrorlist" "$pkgdir/etc/pacman.d/"
+}
+
