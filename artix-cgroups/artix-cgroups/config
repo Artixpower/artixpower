@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+[remote "origin"]
+	url = https://gitea.artixlinux.org/artix/artix-cgroups.git
+	tagOpt = --no-tags
+	fetch = +refs/*:refs/*
+	mirror = true

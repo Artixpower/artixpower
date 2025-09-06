@@ -1,0 +1,6 @@
+==> Making package: lxdm-runit 20180314-6 (Fri 05 Sep 2025 04:48:59 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> lxdm-gtk3
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

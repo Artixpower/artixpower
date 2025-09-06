@@ -1,0 +1,6 @@
+==> Making package: tor-runit 20180314-4 (Fri 05 Sep 2025 04:13:34 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> tor
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

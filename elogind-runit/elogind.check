@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+test -f /run/elogind.pid
+
+readonly PID="$(cat /run/elogind.pid)"
+test -n "$PID"
+
+test "$(ps -q "$PID" -o comm=)" = 'elogind'

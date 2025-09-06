@@ -1,0 +1,6 @@
+==> Making package: avahi-runit 20180226-3 (Fri 05 Sep 2025 03:40:24 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> dbus-runit
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

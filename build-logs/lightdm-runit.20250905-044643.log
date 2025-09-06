@@ -1,0 +1,6 @@
+==> Making package: lightdm-runit 20220815-1 (Fri 05 Sep 2025 04:47:04 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> lightdm
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

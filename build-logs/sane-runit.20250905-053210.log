@@ -1,0 +1,6 @@
+==> Making package: sane-runit 20240619-1 (Fri 05 Sep 2025 05:32:31 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> sane
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

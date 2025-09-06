@@ -1,0 +1,6 @@
+==> Making package: sddm-runit 20211029-1 (Fri 05 Sep 2025 05:32:53 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> sddm
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

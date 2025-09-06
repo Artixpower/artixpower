@@ -1,0 +1,35 @@
+# Maintainer: Qontinuum <qontinuum@artixlinux.org>
+# Contributor: Chris Cromer <chris@cromer.cl>
+# Contributor: Muhammad Herdiansyah <koni@artixlinux.org>
+
+_commit=e0c4e306e448d2ac7a8a314133995ee37bc48f92
+
+pkgname=runit-rc
+pkgver=20240415
+pkgrel=2
+pkgdesc='Artix Linux system initialization and shutdown for runit'
+arch=(powerpc)
+url='https://gitea.artixlinux.org/artix/runit-rc'
+license=('BSD')
+makedepends=('git')
+depends=('procps-ng' 'bash' 'eudev-runit' 'artix-cgroups')
+provides=('init-rc')
+conflicts=('init-rc')
+source=("git+${url}.git#commit=$_commit")
+sha256sums=('SKIP')
+optdepends=('lvm2-runit: LVM support for runit'
+            'cryptsetup-runit: Enable boot support for encrypted partitions')
+
+build() {
+	cd ${pkgname} #-${pkgver}
+	make
+}
+
+package() {
+	cd ${pkgname} #-${pkgver}
+	make DESTDIR="${pkgdir}" install-rc
+
+	# iputils-specific configuration
+	mkdir -p "$pkgdir/usr/lib/sysctl.d"
+	echo "net.ipv4.ping_group_range = 0 2147483647" > "$pkgdir/usr/lib/sysctl.d/55-iputils.conf"
+}

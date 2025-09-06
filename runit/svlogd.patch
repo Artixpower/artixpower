@@ -1,0 +1,10 @@
+--- runit-2.2.0/src/svlogd.c	2025-03-13 21:49:18.328767525 +0100
++++ runit-2.2.0/src/svlogd.c	2025-03-13 21:51:13.662008573 +0100
+@@ -8,6 +8,7 @@
+ #include <dirent.h>
+ #include <unistd.h>
+ #include <stdio.h>
++#include <string.h>
+ #include "pmatch.h"
+ #include "fmt_ptime.h"
+ #include "alloc.h"

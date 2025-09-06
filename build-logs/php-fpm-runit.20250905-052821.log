@@ -1,0 +1,6 @@
+==> Making package: php-fpm-runit 20190628-4 (Fri 05 Sep 2025 05:28:41 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> php-fpm
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

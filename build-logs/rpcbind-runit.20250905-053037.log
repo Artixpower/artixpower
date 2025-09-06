@@ -1,0 +1,6 @@
+==> Making package: rpcbind-runit 20180429-4 (Fri 05 Sep 2025 05:30:58 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> rpcbind
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

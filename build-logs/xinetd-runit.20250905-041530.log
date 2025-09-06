@@ -1,0 +1,6 @@
+==> Making package: xinetd-runit 1:20210425-1 (Fri 05 Sep 2025 04:15:51 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> xinetd
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

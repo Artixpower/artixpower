@@ -1,0 +1,6 @@
+==> Making package: jenkins-runit 20200613-4 (Fri 05 Sep 2025 03:57:15 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> jenkins
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

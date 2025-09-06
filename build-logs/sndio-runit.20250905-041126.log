@@ -1,0 +1,6 @@
+==> Making package: sndio-runit 20200417-3 (Fri 05 Sep 2025 04:11:47 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> sndio
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

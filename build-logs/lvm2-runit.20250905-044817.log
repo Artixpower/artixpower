@@ -1,0 +1,6 @@
+==> Making package: lvm2-runit 20210205-3 (Fri 05 Sep 2025 04:48:38 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> lvm2
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

@@ -1,0 +1,45 @@
+#!/bin/sh -e
+
+runit_live() {
+  if [ ! -L /run/runit/service ]; then
+    echo >&2 "  Skipped: Current root is not booted."
+    exit 0
+  fi
+}
+
+svc_help(){
+    echo "	==> Start/stop/restart a service:"
+    echo "	sv <start/stop/restart> <service>"
+}
+
+svc_add_help(){
+    echo "	==> Add a service:"
+    echo "	ln -s /etc/runit/sv/<service> /run/runit/service/"
+    svc_help
+}
+
+svc_del_help(){
+    echo "	==> Remove a service:"
+    echo "	rm /run/runit/service/<service>"
+    svc_help
+}
+
+each_conf() {
+  while read -r f; do
+    "$@" "/$f"
+  done
+}
+
+op="$1"; shift
+
+case $op in
+  sysctl)   runit_live; each_conf /usr/bin/sysctl -q -p ;;
+  binfmt)   runit_live; each_conf /usr/lib/rc/sv.d/binfmt once ;;
+    # For use by other packages
+  reload)   runit_live; /usr/bin/sv "$@" reload ;;
+  add)      svc_add_help ;;
+  del)      svc_del_help ;;
+  *) echo >&2 "  Invalid operation '$op'"; exit 1 ;;
+esac
+
+exit 0

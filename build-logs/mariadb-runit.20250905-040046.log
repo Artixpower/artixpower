@@ -1,0 +1,6 @@
+==> Making package: mariadb-runit 20200823-3 (Fri 05 Sep 2025 04:01:07 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> mariadb
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

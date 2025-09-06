@@ -1,0 +1,6 @@
+==> Making package: fail2ban-runit 20210407-2 (Fri 05 Sep 2025 04:39:16 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> fail2ban
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

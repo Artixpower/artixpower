@@ -1,0 +1,7 @@
+==> Making package: cups-runit 20180226-3 (Fri 05 Sep 2025 04:31:28 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> cups
+  -> dbus-runit
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

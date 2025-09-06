@@ -1,0 +1,11 @@
+[Trigger]
+Type = Path
+Operation = Install
+Operation = Upgrade
+Target = etc/runit/sv/*
+
+[Action]
+Description = Displaying runit service help ...
+When = PostTransaction
+Exec = /usr/share/libalpm/scripts/runit-hook add
+NeedsTargets

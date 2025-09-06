@@ -1,0 +1,6 @@
+==> Making package: openvpn-runit 20231208-1 (Fri 05 Sep 2025 04:06:10 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> openvpn
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

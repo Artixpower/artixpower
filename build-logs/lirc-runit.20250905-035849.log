@@ -1,0 +1,6 @@
+==> Making package: lirc-runit 20210429-2 (Fri 05 Sep 2025 03:59:10 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> lirc
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

@@ -1,0 +1,6 @@
+==> Making package: brltty-runit 20180226-4 (Fri 05 Sep 2025 04:28:21 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> brltty
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

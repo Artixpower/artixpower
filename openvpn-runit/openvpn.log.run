@@ -1,0 +1,6 @@
+#!/bin/sh -e
+exec 2>&1
+
+[ -d /var/log/openvpn ] || install -dm 755 /var/log/openvpn
+
+exec svlogd -tt /var/log/openvpn

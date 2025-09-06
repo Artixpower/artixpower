@@ -1,0 +1,6 @@
+==> Making package: mdadm-runit 20180429-3 (Fri 05 Sep 2025 04:01:28 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> mdadm
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

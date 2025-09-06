@@ -1,0 +1,6 @@
+==> Making package: libvirt-runit 20180801-3 (Fri 05 Sep 2025 03:58:27 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> libvirt
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

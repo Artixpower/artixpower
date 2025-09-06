@@ -1,0 +1,6 @@
+==> Making package: postgresql-runit 20230414-1 (Fri 05 Sep 2025 04:08:05 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> postgresql
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

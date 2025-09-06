@@ -1,0 +1,10 @@
+# pack-refs with: peeled fully-peeled sorted 
+cb89d5b167139f8fb151d139db5b254263de9a2a refs/heads/btrfs
+0cb5c0e5d6d4a33e1308b4ac3d56d6cabcc32139 refs/heads/cleantmp
+319d05e43cf9a06f5e3bd1adff0e049181e5f4f1 refs/heads/ground-up
+e0c4e306e448d2ac7a8a314133995ee37bc48f92 refs/heads/master
+6ffbff7be2a6b54123126b4e55568eb39293e276 refs/heads/new-rc
+4b86804970c3b41f0d16bd7cb54072a90bd7cfa3 refs/heads/svfail
+6cc8c4288f01ea5dac126326f13de11bf14874c1 refs/heads/udev
+18183a020fd9221be5e0117d3f2638200fe1ead9 refs/heads/verbose2
+4b86804970c3b41f0d16bd7cb54072a90bd7cfa3 refs/pull/1/head

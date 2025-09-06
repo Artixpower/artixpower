@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1; set -e
+
+[ -d /var/log/lightdm ] || install -dm755 /var/log/lightdm
+
+exec svlogd -tt /var/log/lightdm

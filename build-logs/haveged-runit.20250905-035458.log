@@ -1,0 +1,6 @@
+==> Making package: haveged-runit 20180226-4 (Fri 05 Sep 2025 03:55:19 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> haveged
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

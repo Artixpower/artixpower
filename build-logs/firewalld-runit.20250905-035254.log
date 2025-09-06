@@ -1,0 +1,6 @@
+==> Making package: firewalld-runit 20200623-2 (Fri 05 Sep 2025 03:53:15 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> firewalld
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

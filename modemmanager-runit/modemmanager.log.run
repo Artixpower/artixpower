@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1; set -e
+
+[ -d /var/log/modemmanager ] || install -dm 755 /var/log/modemmanager
+
+exec svlogd -tt /var/log/modemmanager

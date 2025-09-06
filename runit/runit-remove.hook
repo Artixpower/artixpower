@@ -1,0 +1,10 @@
+[Trigger]
+Type = Path
+Operation = Remove
+Target = etc/runit/sv/*
+
+[Action]
+Description = Displaying runit service help ...
+When = PostTransaction
+Exec = /usr/share/libalpm/scripts/runit-hook del
+NeedsTargets

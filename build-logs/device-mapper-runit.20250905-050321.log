@@ -1,0 +1,6 @@
+==> Making package: device-mapper-runit 20180429-3 (Fri 05 Sep 2025 05:03:42 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> device-mapper
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

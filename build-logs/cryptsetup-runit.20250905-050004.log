@@ -1,0 +1,6 @@
+==> Making package: cryptsetup-runit 20220813-1 (Fri 05 Sep 2025 05:00:25 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> cryptsetup
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

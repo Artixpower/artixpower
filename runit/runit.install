@@ -1,0 +1,10 @@
+post_upgrade()
+{
+    if [ -x /etc/rc.local.pacsave ]; then
+        mv /etc/rc.local.pacsave /etc/rc.local
+        echo "==> If you have the '/etc/rc.local saved as /etc/rc.local.pacsave'"
+        echo "    message, it should've been moved back to /etc/rc.local, in case"
+        echo "    it doesn't get moved, you need to move it manually."
+        echo "    Our apologies for the inconvenience."
+    fi
+}

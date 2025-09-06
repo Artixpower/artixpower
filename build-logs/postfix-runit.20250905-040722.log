@@ -1,0 +1,6 @@
+==> Making package: postfix-runit 20180602-3 (Fri 05 Sep 2025 04:07:43 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> postfix
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

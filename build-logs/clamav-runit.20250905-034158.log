@@ -1,0 +1,6 @@
+==> Making package: clamav-runit 20180731-3 (Fri 05 Sep 2025 03:42:19 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> clamav
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

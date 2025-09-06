@@ -1,0 +1,7 @@
+==> Making package: seatd-runit 20231119-1 (Fri 05 Sep 2025 04:11:25 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> dbus-runit
+  -> seatd
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

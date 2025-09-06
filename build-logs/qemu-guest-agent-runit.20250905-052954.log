@@ -1,0 +1,6 @@
+==> Making package: qemu-guest-agent-runit 20201020-3 (Fri 05 Sep 2025 05:30:15 AM UTC)
+==> Checking runtime dependencies...
+==> Missing dependencies:
+  -> qemu-guest-agent
+==> Checking buildtime dependencies...
+==> ERROR: Could not resolve all dependencies.

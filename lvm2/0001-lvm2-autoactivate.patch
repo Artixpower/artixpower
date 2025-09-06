@@ -1,0 +1,25 @@
+From ae1eb43078fbcc2697b93421577a24a6333fb099 Mon Sep 17 00:00:00 2001
+From: artoo <artoo@artixlinux.org>
+Date: Fri, 9 May 2025 23:31:08 +0200
+Subject: [PATCH 1/1] lvm2-autoactivate
+
+---
+ udev/69-dm-lvm.rules.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/udev/69-dm-lvm.rules.in b/udev/69-dm-lvm.rules.in
+index f7a6eef8f..d10d2a20d 100644
+--- a/udev/69-dm-lvm.rules.in
++++ b/udev/69-dm-lvm.rules.in
+@@ -85,7 +85,7 @@ LABEL="lvm_scan"
+ # it's better suited to appearing in the journal.
+ 
+ IMPORT{program}="(LVM_EXEC)/lvm pvscan --cache --listvg --checkcomplete --vgonline --autoactivation event --udevoutput --journal=output $env{DEVNAME}"
+-ENV{LVM_VG_NAME_COMPLETE}=="?*", RUN+="(SYSTEMDRUN) --no-block --property DefaultDependencies=no --unit lvm-activate-$env{LVM_VG_NAME_COMPLETE} (LVM_EXEC)/lvm vgchange -aay --autoactivation event $env{LVM_VG_NAME_COMPLETE}"
++ENV{LVM_VG_NAME_COMPLETE}=="?*", RUN+="(LVM_EXEC)/lvm vgchange -aay --nohints --autoactivation event $env{LVM_VG_NAME_COMPLETE}"
+ GOTO="lvm_end"
+ 
+ LABEL="lvm_end"
+-- 
+2.49.0
+

@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1; set -e
+
+[ -d /var/log/iwd ] || install -dm 755 /var/log/iwd
+
+exec svlogd -tt /var/log/iwd
